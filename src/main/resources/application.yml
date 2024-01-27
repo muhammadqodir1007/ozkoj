@@ -1,19 +1,32 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/jwt_security
-    username: username
-    password: password
+    url: jdbc:postgresql://localhost:5432/doctor
+    username: postgres
+    password: new_password
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     show-sql: false
     properties:
       hibernate:
         format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: DoctorS.Med.Fazo@gmail.com
+    password: taub optv rywl bgol
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    iPAndPort: http://localhost:8081/
+    conformEmailForSignUpURL: api/v1/auth/verify/
+    conformEmailForResetForgottenPasswordURL: change-password/
 application:
   security:
     jwt:
@@ -21,3 +34,5 @@ application:
       expiration: 86400000 # a day
       refresh-token:
         expiration: 604800000 # 7 days
+server:
+  port: 8081
