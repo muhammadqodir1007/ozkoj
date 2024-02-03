@@ -40,7 +40,7 @@ public class ResourceServiceImpl implements ResourceService {
     public Resource update(Integer resourceId, ResourceDto resourceDto) throws IOException {
         Resource existingResource = resourceRepository.findById(resourceId).orElseThrow(NotFoundException::new);
 
-        if (resourceDto.getMultipartFile() != null && !resourceDto.getMultipartFile().isEmpty()) {
+        if (resourceDto.getMultipartFile() != null) {
             String s = imageService.saveImage(resourceDto.getMultipartFile());
             existingResource.setFileLink(s);
         }
@@ -61,7 +61,9 @@ public class ResourceServiceImpl implements ResourceService {
 
 
     @Override
-    public void delete(Integer id) {
+    public void delete(Integer id) throws IOException {
+        Resource resource = resourceRepository.findById(id).orElseThrow(NotFoundException::new);
+        imageService.deleteImage(resource.getFileLink());
         resourceRepository.deleteById(id);
     }
 }

@@ -1,4 +1,5 @@
 package com.alibou.security.service.impl;
+
 import com.alibou.security.entity.Speakers;
 import com.alibou.security.exceptions.NotFoundException;
 import com.alibou.security.image.ImageService;
@@ -38,7 +39,9 @@ public class SpeakerServiceImpl implements SpeakerService {
         log.info("Image link: {}", link);
 
         Speakers speakers = Speakers.builder().
-                description(entity.getDescription()).
+                description_uz(entity.getDescription_uz()).
+                description_ru(entity.getDescription_ru()).
+                description_en(entity.getDescription_en()).
                 fullName(entity.getFullName()).link(link).
                 build();
         return speakerRepository.save(speakers);
@@ -49,11 +52,17 @@ public class SpeakerServiceImpl implements SpeakerService {
 
 
         Speakers speakers = speakerRepository.findById(integer).orElseThrow(NotFoundException::new);
-        if (!entity.getFile().isEmpty()) {
+        if (entity.getFile()!=null) {
             speakers.setLink(imageService.saveImage(entity.getFile()));
         }
-        if (entity.getDescription() != null) {
-            speakers.setDescription(entity.getDescription());
+        if (entity.getDescription_uz() != null) {
+            speakers.setDescription_uz(entity.getDescription_uz());
+        }
+        if (entity.getDescription_en() != null) {
+            speakers.setDescription_en(entity.getDescription_en());
+        }
+        if (entity.getDescription_ru() != null) {
+            speakers.setDescription_ru(entity.getDescription_ru());
         }
         if (entity.getFullName() != null) {
             speakers.setFullName(entity.getFullName());

@@ -27,7 +27,7 @@ public class News {
     String description_en;
     String description_ru;
     String link;
-    LocalDateTime localDateTime;
+    LocalDateTime createdDate;
 
 
 }

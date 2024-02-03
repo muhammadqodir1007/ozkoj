@@ -1,11 +1,12 @@
 package com.alibou.security.service.impl;
 
-import com.alibou.security.entity.News;
+import com.alibou.security.entity.Article;
 import com.alibou.security.exceptions.NotFoundException;
 import com.alibou.security.image.ImageService;
+import com.alibou.security.payload.ArticleDto;
 import com.alibou.security.payload.NewsDto;
-import com.alibou.security.repository.NewsRepository;
-import com.alibou.security.service.NewsService;
+import com.alibou.security.repository.ArticleRepository;
+import com.alibou.security.service.ArticleService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,28 +16,27 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class NewsServiceImpl implements NewsService {
-    NewsRepository repository;
-    NewsRepository newsRepository;
+public class ArticleServiceImpl implements ArticleService {
+    ArticleRepository repository;
     ImageService imageService;
 
 
     @Override
-    public List<News> findAll() {
+    public List<Article> findAll() {
         return repository.findAll();
     }
 
     @Override
-    public News findById(Integer integer) {
+    public Article findById(Integer integer) {
         return repository.findById(integer).orElseThrow(NotFoundException::new);
     }
 
     @Override
-    public News create(NewsDto entity) throws IOException {
+    public Article create(NewsDto entity) throws IOException {
         String link = imageService.saveImage(entity.getFile());
         LocalDateTime now = LocalDateTime.now();
 
-        News news = News.builder()
+        Article news = Article.builder()
                 .title_uz(entity.getTitle_uz())
                 .title_ru(entity.getTitle_ru())
                 .title_en(entity.getTitle_en())
@@ -47,12 +47,12 @@ public class NewsServiceImpl implements NewsService {
                 .createdDate(now)
                 .build();
 
-        return newsRepository.save(news);
+        return repository.save(news);
     }
 
     @Override
-    public News update(Integer newsId, NewsDto entity) throws IOException {
-        News news = newsRepository.findById(newsId).orElseThrow(NotFoundException::new);
+    public Article update(Integer newsId, ArticleDto entity) throws IOException {
+        Article news = repository.findById(newsId).orElseThrow(NotFoundException::new);
 
         if (entity.getFile() != null) {
             news.setLink(imageService.saveImage(entity.getFile()));
@@ -78,11 +78,11 @@ public class NewsServiceImpl implements NewsService {
             news.setDescription_ru(entity.getDescription_ru());
         }
 
-        return newsRepository.save(news);
+        return repository.save(news);
     }
 
     @Override
     public void delete(Integer integer) {
-        newsRepository.deleteById(integer);
+        repository.deleteById(integer);
     }
 }

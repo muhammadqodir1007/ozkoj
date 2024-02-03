@@ -27,12 +27,17 @@ public class ImageService {
         Files.copy(file.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
 
         // Return the file path or URL
-        return "static/images/" + filename; // This is just an example, modify as needed
+        return filename; // This is just an example, modify as needed
     }
 
     public byte[] readImage(String filename) throws IOException {
         Path imagePath = Path.of(uploadPath, filename);
         return Files.readAllBytes(imagePath);
+    }
+
+    public void deleteImage(String filename) throws IOException {
+        Path imagePath = Path.of(uploadPath, filename);
+        Files.deleteIfExists(imagePath);
     }
 
 }

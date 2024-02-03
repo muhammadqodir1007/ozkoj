@@ -4,6 +4,7 @@ import com.alibou.security.config.JwtService;
 import com.alibou.security.config.MessageByLang;
 import com.alibou.security.exceptions.RestException;
 import com.alibou.security.payload.ApiResult;
+import com.alibou.security.payload.ResetForgottenPasswordDTO;
 import com.alibou.security.service.MailService;
 import com.alibou.security.token.Token;
 import com.alibou.security.token.TokenRepository;
@@ -15,7 +16,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,6 +24,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -109,4 +111,35 @@ public class AuthenticationService {
             }
         }
     }
+
+
+    public ApiResult<RegisterResponse> forgotPassword(String email) {
+        User user = repository.findByEmail(email).orElseThrow(NullPointerException::new);
+        String verificationCode = UUID.randomUUID().toString();
+        user.setVerificationCode(verificationCode);
+        repository.save(user);
+        mailService.sendEmailForForForgotPassword(email, verificationCode);
+        return ApiResult.successResponse(new RegisterResponse(MessageByLang.getMessage("SUCCESSFULLY_SEND_CODE_TO_EMAIL")));
+    }
+
+    public ApiResult<RegisterResponse> resetForgottenPassword(ResetForgottenPasswordDTO resetForgottenPasswordDTO) {
+        if (Objects.isNull(resetForgottenPasswordDTO))
+            throw RestException.restThrow(MessageByLang.getMessage("REQUEST_DATA_BE_NOT_NULL"));
+
+        if (!Objects.equals(resetForgottenPasswordDTO.getPassword(), resetForgottenPasswordDTO.getPrePassword()))
+            return ApiResult.errorResponseWithData(new RegisterResponse(false, MessageByLang.getMessage("PASSWORDS_NOT_EQUAL")));
+
+
+        Optional<User> userOptional = repository.findByVerificationCode(resetForgottenPasswordDTO.getVerificationCode());
+        if (userOptional.isEmpty())
+            return ApiResult.errorResponseWithData(RegisterResponse.wrongVerificationCode(MessageByLang.getMessage("INVALID_VERIFICATION_CODE")));
+
+        User user = userOptional.get();
+        user.setPassword(passwordEncoder.encode(resetForgottenPasswordDTO.getPassword()));
+        user.setVerificationCode(null);
+        repository.save(user);
+        return ApiResult.successResponse(new RegisterResponse(MessageByLang.getMessage("PASSWORD_SUCCESSFULLY_CHANGED")));
+    }
+
+
 }

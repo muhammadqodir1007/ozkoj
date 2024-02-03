@@ -47,13 +47,13 @@ public class ResourceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdResource);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<Resource> updateResource(
             @PathVariable Integer id,
             @RequestParam(value = "description_uz", required = false) String descriptionUz,
             @RequestParam(value = "description_en", required = false) String descriptionEn,
             @RequestParam(value = "description_ru", required = false) String descriptionRu,
-            @RequestParam(value = "multipartFile", required = false) MultipartFile multipartFile) throws IOException {
+            @RequestParam(value = "file", required = false) MultipartFile multipartFile) throws IOException {
 
         ResourceDto resourceDto = new ResourceDto();
         resourceDto.setDescription_uz(descriptionUz);
@@ -66,7 +66,7 @@ public class ResourceController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteResource(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteResource(@PathVariable Integer id) throws IOException {
         resourceService.delete(id);
         return ResponseEntity.noContent().build();
     }

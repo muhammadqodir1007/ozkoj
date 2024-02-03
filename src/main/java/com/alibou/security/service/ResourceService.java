@@ -17,5 +17,5 @@ public interface ResourceService {
 
     Resource update(Integer resourceId, ResourceDto resource) throws IOException;
 
-    void delete(Integer id);
+    void delete(Integer id) throws IOException;
 }

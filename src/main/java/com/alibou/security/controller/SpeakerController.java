@@ -1,7 +1,6 @@
 package com.alibou.security.controller;
 
 import com.alibou.security.entity.Speakers;
-import com.alibou.security.exceptions.NotFoundException;
 import com.alibou.security.payload.SpeakerDto;
 import com.alibou.security.service.SpeakerService;
 import lombok.AllArgsConstructor;
@@ -33,26 +32,34 @@ public class SpeakerController {
 
     @PostMapping
     public ResponseEntity<Speakers> createSpeaker(@RequestParam("fullName") String fullName,
-                                                  @RequestParam("description") String description,
+                                                  @RequestParam("description_uz") String description_uz,
+                                                  @RequestParam("description_ru") String description_ru,
+                                                  @RequestParam("description_en") String description_en,
                                                   @RequestParam("file") MultipartFile file) throws IOException {
         SpeakerDto speakerDto = new SpeakerDto();
         speakerDto.setFullName(fullName);
-        speakerDto.setDescription(description);
+        speakerDto.setDescription_en(description_en);
+        speakerDto.setDescription_ru(description_ru);
+        speakerDto.setDescription_uz(description_uz);
         speakerDto.setFile(file);
 
         Speakers createdSpeaker = speakerService.create(speakerDto);
         return new ResponseEntity<>(createdSpeaker, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<Speakers> updateSpeaker(@PathVariable Integer id,
-                                                  @RequestParam("fullName") String fullName,
-                                                  @RequestParam("description") String description,
+                                                  @RequestParam(value = "fullName",required = false) String fullName,
+                                                  @RequestParam(value = "description_uz", required = false) String description_uz,
+                                                  @RequestParam(value = "description_ru", required = false) String description_ru,
+                                                  @RequestParam(value = "description_en", required = false) String description_en,
                                                   @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
         SpeakerDto speakerDto = new SpeakerDto();
         speakerDto.setFullName(fullName);
-        speakerDto.setDescription(description);
         speakerDto.setFile(file);
+        speakerDto.setDescription_en(description_en);
+        speakerDto.setDescription_ru(description_ru);
+        speakerDto.setDescription_uz(description_uz);
 
         Speakers updatedSpeaker = speakerService.update(id, speakerDto);
         return new ResponseEntity<>(updatedSpeaker, HttpStatus.OK);

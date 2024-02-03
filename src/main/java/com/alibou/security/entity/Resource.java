@@ -25,4 +25,5 @@ public class Resource {
     String description_ru;
     String fileLink;
 
+
 }

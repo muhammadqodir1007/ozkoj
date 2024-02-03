@@ -48,6 +48,19 @@ public class MailServiceImpl implements MailService {
         thread.start();
     }
 
+    @Override
+    public void sendEmailForForForgotPassword(String to, String verificationCode) {
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setTo(to);
+        simpleMailMessage.setFrom(sender);
+        simpleMailMessage.setSubject("subject");
+        String href = confirmLinkIPAndPort + conformEmailForResetForgottenPasswordURL + verificationCode;
+        String text = MessageByLang.getMessage("TEXT_OF_EMAIL") + "\n" + href;
+        simpleMailMessage.setText(text);
+        Thread thread = new Thread(() -> mailSender.send(simpleMailMessage));
+        thread.start();
+    }
+
 //    @Override
 //    public void sendEmailForForForgotPassword(String to, String verificationCode) {
 //

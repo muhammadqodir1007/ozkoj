@@ -14,14 +14,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Speakers {
+public class Partners {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    String fullName;
-    String description_uz;
-    String description_ru;
-    String description_en;
-    String link;
+    private String link;  //image link
+    private String title_uz;
+    private String title_ru;
+    private String title_en;
+    private String url;  //website url
 }
