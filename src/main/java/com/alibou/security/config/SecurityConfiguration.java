@@ -28,24 +28,10 @@ public class SecurityConfiguration {
 
     private static final String[] WHITE_LIST_URL =
             {"/api/auth/**",
-                    "/swagger-ui/**",
                     "/api/article/**",
                     "/api/materials/**",
                     "/api/images/**",
-                    "/v2/api-docs",
-                    "/v3/api-docs",
-                    "/v3/api-docs/**",
-                    "/swagger-resources",
-                    "/swagger-resources/**",
-                    "/configuration/ui",
                     "/configuration/security",
-                    "/swagger-ui/**",
-                    "/webjars/**",
-                    "/v3/api-docs/**",
-                    "/swagger-ui/**",
-                    "/v2/api-docs/**",
-                    "/swagger-resources/**",
-                    "/swagger-ui.html",
 
             };
     private final JwtAuthenticationFilter jwtAuthFilter;
@@ -70,15 +56,8 @@ public class SecurityConfiguration {
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
                                 .requestMatchers("/api/v1/management/**").hasAnyRole(ADMIN.name(), MANAGER.name())
-                                .requestMatchers(GET, "/api/speakers/**").permitAll()
-                                .requestMatchers(GET, "/api/news/**").permitAll()
-                                .requestMatchers(GET, "/api/resources/**").permitAll()
-                                .requestMatchers(GET, "/api/partners/**").permitAll()
-                                .requestMatchers(GET, "/api/webinars/**").permitAll()
-                                .requestMatchers(GET, "/api/v1/management/**").hasAnyAuthority(ADMIN_READ.name(), MANAGER_READ.name())
-                                .requestMatchers(POST, "/api/v1/management/**").hasAnyAuthority(ADMIN_CREATE.name(), MANAGER_CREATE.name())
-                                .requestMatchers(PUT, "/api/v1/management/**").hasAnyAuthority(ADMIN_UPDATE.name(), MANAGER_UPDATE.name())
-                                .requestMatchers(DELETE, "/api/v1/management/**").hasAnyAuthority(ADMIN_DELETE.name(), MANAGER_DELETE.name())
+                                .requestMatchers(GET, "/api/speakers/**", "/api/news/**", "/api/resources/**"
+                                        , "/api/partners/**", "/api/webinars/**", "/api/article/**", "/api/materials/**").permitAll()
                                 .anyRequest()
                                 .authenticated()
                 )

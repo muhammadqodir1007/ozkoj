@@ -43,6 +43,7 @@ public class PartnersServiceImpl implements PartnersService {
 
         return partnersRepository.save(partners);
     }
+
     @Override
     public Partners update(Integer id, PartnersDto entity) throws IOException {
         Partners partners = partnersRepository.findById(id).orElseThrow(NotFoundException::new);
