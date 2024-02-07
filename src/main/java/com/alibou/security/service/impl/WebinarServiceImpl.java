@@ -97,6 +97,7 @@ public class WebinarServiceImpl implements WebinarService {
         return WebinarDtoResponse.builder()
                 .userDtos(webinar.getUser().stream().map(UserDto::fromUser).collect(Collectors.toList()))
                 .description_en(webinar.getDescription_en())
+                .time(webinar.getTime())
                 .description_ru(webinar.getDescription_ru())
                 .speakers(new ArrayList<>(webinar.getSpeakers()))
                 .field(webinar.getField())
@@ -150,7 +151,6 @@ public class WebinarServiceImpl implements WebinarService {
             oldWebinar.getSpeakers().clear();
             oldWebinar.getSpeakers().addAll(newSpeakers);
         }
-        // ... (repeat for other properties)
         return oldWebinar;
     }
 
@@ -186,7 +186,6 @@ public class WebinarServiceImpl implements WebinarService {
         return webinarRepository.findAll()
                 .stream()
                 .map(Webinar::getCity)
-                .distinct()
                 .collect(Collectors.toSet());
     }
 
@@ -195,7 +194,6 @@ public class WebinarServiceImpl implements WebinarService {
         return webinarRepository.findAll()
                 .stream()
                 .map(Webinar::getField)
-                .distinct()
                 .collect(Collectors.toSet());
     }
 
