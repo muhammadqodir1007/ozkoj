@@ -16,5 +16,5 @@ public interface PartnersService {
 
     Partners update(Integer id, PartnersDto entity) throws IOException;
 
-    void delete(Integer id);
+    void delete(Integer id) throws IOException;
 }

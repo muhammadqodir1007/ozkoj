@@ -1,11 +1,13 @@
 package com.alibou.security.service.impl;
 
 import com.alibou.security.entity.Article;
+import com.alibou.security.entity.News;
 import com.alibou.security.exceptions.NotFoundException;
 import com.alibou.security.image.ImageService;
 import com.alibou.security.payload.ArticleDto;
 import com.alibou.security.payload.NewsDto;
 import com.alibou.security.repository.ArticleRepository;
+import com.alibou.security.repository.NewsRepository;
 import com.alibou.security.service.ArticleService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import java.util.List;
 public class ArticleServiceImpl implements ArticleService {
     ArticleRepository repository;
     ImageService imageService;
+    private final NewsRepository newsRepository;
 
 
     @Override
@@ -77,12 +80,13 @@ public class ArticleServiceImpl implements ArticleService {
         if (entity.getDescription_ru() != null) {
             news.setDescription_ru(entity.getDescription_ru());
         }
-
         return repository.save(news);
     }
 
     @Override
-    public void delete(Integer integer) {
+    public void delete(Integer integer) throws IOException {
+        News news = newsRepository.findById(integer).orElseThrow(NotFoundException::new);
+        imageService.deleteImage(news.getLink());
         repository.deleteById(integer);
     }
 }

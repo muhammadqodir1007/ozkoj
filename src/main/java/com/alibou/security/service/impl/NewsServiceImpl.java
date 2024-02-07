@@ -82,7 +82,9 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public void delete(Integer integer) {
+    public void delete(Integer integer) throws IOException {
+        News news = newsRepository.findById(integer).orElseThrow(NotFoundException::new);
+        imageService.deleteImage(news.getLink());
         newsRepository.deleteById(integer);
     }
 }

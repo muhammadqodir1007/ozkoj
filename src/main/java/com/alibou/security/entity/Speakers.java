@@ -19,9 +19,11 @@ public class Speakers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    String fullName;
-    String description_uz;
-    String description_ru;
-    String description_en;
-    String link;
+    private String fullName;
+    private String description_uz;
+    private String description_ru;
+    private String description_en;
+    private String link;
+
+
 }

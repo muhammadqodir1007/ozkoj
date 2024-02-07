@@ -18,7 +18,7 @@ public interface SpeakerService {
 
     Speakers update(Integer integer, SpeakerDto entity) throws IOException;
 
-    void delete(Integer integer);
+    void delete(Integer integer) throws IOException;
 
 
 }

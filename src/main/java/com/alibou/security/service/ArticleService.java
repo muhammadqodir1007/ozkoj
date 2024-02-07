@@ -20,7 +20,7 @@ public interface ArticleService {
 
     public Article update(Integer integer, ArticleDto entity) throws IOException;
 
-    public void delete(Integer integer);
+    public void delete(Integer integer) throws IOException;
 
 
 }

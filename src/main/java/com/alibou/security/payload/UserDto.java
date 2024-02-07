@@ -15,6 +15,16 @@ public class UserDto {
     private Integer id;
     private boolean enabled;
     private Role role;
+    public static UserDto fromUser(com.alibou.security.user.User user) {
+        return UserDto.builder()
+                .id(user.getId())
+                .firstname(user.getFirstname())
+                .lastname(user.getLastname())
+                .email(user.getEmail())
+                .enabled(user.isEnabled())
+                .role(user.getRole())
+                .build();
+    }
 
 
 }

@@ -1,5 +1,6 @@
 package com.alibou.security.entity;
 
+import com.alibou.security.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,6 +34,8 @@ public class Webinar {
     private LocalDateTime time;
     @ManyToMany
     private Set<Speakers> speakers;
+    @ManyToMany
+    private Set<User> user;
 
 
 }

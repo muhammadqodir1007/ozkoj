@@ -19,7 +19,7 @@ public interface NewsService {
 
     News update(Integer integer, NewsDto entity) throws IOException;
 
-    void delete(Integer integer);
+    void delete(Integer integer) throws IOException;
 
 
 }

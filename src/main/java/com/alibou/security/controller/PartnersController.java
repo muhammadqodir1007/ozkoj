@@ -71,7 +71,7 @@ public class PartnersController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePartners(@PathVariable Integer id) {
+    public ResponseEntity<Void> deletePartners(@PathVariable Integer id) throws IOException {
         partnersService.delete(id);
         return ResponseEntity.noContent().build();
     }

@@ -14,10 +14,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.cors.CorsConfiguration;
 
-import static com.alibou.security.user.Permission.*;
 import static com.alibou.security.user.Role.ADMIN;
 import static com.alibou.security.user.Role.MANAGER;
-import static org.springframework.http.HttpMethod.*;
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -31,6 +30,7 @@ public class SecurityConfiguration {
                     "/api/article/**",
                     "/api/materials/**",
                     "/api/images/**",
+                    "/api/home/**",
                     "/configuration/security",
 
             };

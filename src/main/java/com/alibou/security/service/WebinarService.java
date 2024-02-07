@@ -1,23 +1,30 @@
 package com.alibou.security.service;
 
-import com.alibou.security.entity.Webinar;
-import com.alibou.security.payload.SpeakerDto;
+import com.alibou.security.payload.ApiResult;
 import com.alibou.security.payload.WebinarDto;
+import com.alibou.security.payload.WebinarDtoResponse;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 public interface WebinarService {
 
-    List<Webinar> findAll();
+    List<WebinarDtoResponse> findAll();
 
-    Webinar findById(Integer integer);
-
-
-    Webinar create(WebinarDto entity) throws IOException;
+    WebinarDtoResponse findById(Integer integer);
 
 
-    Webinar update(Integer integer, WebinarDto entity) throws IOException;
+    ApiResult<String> create(WebinarDto entity) throws IOException;
 
-    void delete(Integer integer);
+
+    WebinarDtoResponse update(Integer integer, WebinarDto entity) throws IOException;
+
+    void delete(Integer integer) throws IOException;
+
+    WebinarDtoResponse updateUser(Integer webinarId, Integer userId);
+
+    Set<String> listOfCities();
+
+    Set<String> listOfFields();
 }

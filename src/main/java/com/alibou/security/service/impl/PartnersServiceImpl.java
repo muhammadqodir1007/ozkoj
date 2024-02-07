@@ -63,7 +63,9 @@ public class PartnersServiceImpl implements PartnersService {
 
 
     @Override
-    public void delete(Integer id) {
+    public void delete(Integer id) throws IOException {
+        Partners partners = partnersRepository.findById(id).orElseThrow(NotFoundException::new);
+        imageService.deleteImage(partners.getLink());
         partnersRepository.deleteById(id);
     }
 }

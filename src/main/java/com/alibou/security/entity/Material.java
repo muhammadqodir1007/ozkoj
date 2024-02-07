@@ -21,7 +21,7 @@ public class Material {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    String title_uz;
+  public static   String title_uz;
     String title_ru;
     String title_en;
     String description_uz;

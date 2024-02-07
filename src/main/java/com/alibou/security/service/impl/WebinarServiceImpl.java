@@ -4,77 +4,110 @@ import com.alibou.security.entity.Speakers;
 import com.alibou.security.entity.Webinar;
 import com.alibou.security.exceptions.NotFoundException;
 import com.alibou.security.image.ImageService;
+import com.alibou.security.payload.ApiResult;
+import com.alibou.security.payload.UserDto;
 import com.alibou.security.payload.WebinarDto;
+import com.alibou.security.payload.WebinarDtoResponse;
 import com.alibou.security.repository.SpeakerRepository;
 import com.alibou.security.repository.WebinarRepository;
 import com.alibou.security.service.WebinarService;
+import com.alibou.security.user.User;
+import com.alibou.security.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class WebinarServiceImpl implements WebinarService {
+
     private final WebinarRepository webinarRepository;
     private final SpeakerRepository speakerRepository;
     private final ImageService imageService;
-
+    private final UserRepository userRepository;
 
     @Override
-    public List<Webinar> findAll() {
-        return webinarRepository.findAll();
+    public List<WebinarDtoResponse> findAll() {
+        return webinarRepository.findAll()
+                .stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Webinar findById(Integer integer) {
-        return webinarRepository.findById(integer).orElseThrow(NotFoundException::new);
+    public WebinarDtoResponse findById(Integer id) {
+        Webinar webinar = webinarRepository.findById(id).orElseThrow(NotFoundException::new);
+        return convertToDto(webinar);
     }
 
     @Override
-    public Webinar create(WebinarDto entity) throws IOException {
-        List<Integer> speakers = entity.getSpeakers();
-        String image = imageService.saveImage(entity.getFile());
-        Set<Speakers> speakersSet = new HashSet<>();
-        for (int speaker : speakers) {
-            Speakers speakers1 = speakerRepository.findById(speaker).orElseThrow(NotFoundException::new);
-            speakersSet.add(speakers1);
-        }
-        Webinar build = Webinar.builder().description_en(entity.getDescription_en())
-                .description_ru(entity.getDescription_ru())
-                .speakers(speakersSet)
-                .time(entity.getTime())
-                .field(entity.getField())
-                .online(entity.getOnline())
-                .description_uz(entity.getDescription_uz())
-                .description_en(entity.getDescription_en())
+    public ApiResult<String> create(WebinarDto webinarDto) throws IOException {
+        List<Integer> speakerIds = webinarDto.getSpeakers();
+        String image = imageService.saveImage(webinarDto.getFile());
+        Set<Speakers> speakersSet = getSpeakersSetFromIds(speakerIds);
+        Webinar build = Webinar.builder()
+                .field(webinarDto.getField())
+                .time(webinarDto.getTime())
                 .link(image)
-                .city(entity.getCity())
-                .title_uz(entity.getTitle_uz())
-                .title_ru(entity.getTitle_ru())
-                .title_en(entity.getTitle_en())
+                .title_en(webinarDto.getTitle_en())
+                .title_ru(webinarDto.getTitle_ru())
+                .title_uz(webinarDto.getTitle_uz())
+                .description_en(webinarDto.getDescription_en())
+                .description_uz(webinarDto.getDescription_uz())
+                .description_ru(webinarDto.getDescription_ru())
+                .online(webinarDto.getOnline())
+                .city(webinarDto.getCity())
+                .speakers(speakersSet)
                 .build();
-        return webinarRepository.save(build);
-    }
-
-
-    @Override
-    public void delete(Integer integer) {
-        webinarRepository.deleteById(integer);
-
+        webinarRepository.save(build);
+        return ApiResult.successResponse("created");
     }
 
     @Override
-    public Webinar update(Integer integer, WebinarDto entity) throws IOException {
-        Webinar oldWebinar = webinarRepository.findById(integer).orElseThrow(NotFoundException::new);
-        Webinar newWebinar = buildWebinarFromDto(entity);
+    public void delete(Integer id) throws IOException {
+        Webinar webinar = webinarRepository.findById(id).orElseThrow(NotFoundException::new);
+        imageService.deleteImage(webinar.getLink());
+        webinarRepository.deleteById(id);
+    }
 
+    @Override
+    public WebinarDtoResponse update(Integer id, WebinarDto webinarDto) throws IOException {
+        Webinar oldWebinar = webinarRepository.findById(id).orElseThrow(NotFoundException::new);
+        Webinar newWebinar = buildWebinarFromDto(webinarDto);
         Webinar updatedWebinar = check(oldWebinar, newWebinar);
+        return convertToDto(webinarRepository.save(updatedWebinar));
+    }
 
-        return webinarRepository.save(updatedWebinar);
+    @Override
+    public WebinarDtoResponse updateUser(Integer webinarId, Integer userId) {
+        Webinar webinar = webinarRepository.findById(webinarId).orElseThrow(NotFoundException::new);
+        User user = userRepository.findById(userId).orElseThrow(NotFoundException::new);
+        Set<User> users = webinar.getUser();
+        users.add(user);
+        webinar.setUser(users);
+        return convertToDto(webinarRepository.save(webinar));
+    }
+
+    private WebinarDtoResponse convertToDto(Webinar webinar) {
+        return WebinarDtoResponse.builder()
+                .userDtos(webinar.getUser().stream().map(UserDto::fromUser).collect(Collectors.toList()))
+                .description_en(webinar.getDescription_en())
+                .description_ru(webinar.getDescription_ru())
+                .speakers(new ArrayList<>(webinar.getSpeakers()))
+                .field(webinar.getField())
+                .online(webinar.getOnline())
+                .description_uz(webinar.getDescription_uz())
+                .file(webinar.getLink())
+                .city(webinar.getCity())
+                .title_uz(webinar.getTitle_uz())
+                .title_ru(webinar.getTitle_ru())
+                .title_en(webinar.getTitle_en())
+                .build();
     }
 
     private Webinar check(Webinar oldWebinar, Webinar newWebinar) {
@@ -117,35 +150,53 @@ public class WebinarServiceImpl implements WebinarService {
             oldWebinar.getSpeakers().clear();
             oldWebinar.getSpeakers().addAll(newSpeakers);
         }
-
+        // ... (repeat for other properties)
         return oldWebinar;
     }
 
-    private Webinar buildWebinarFromDto(WebinarDto entity) throws IOException {
-        List<Integer> speakers = entity.getSpeakers();
-        // Check if the file is not null before trying to save it
-        String image = entity.getFile() != null ? imageService.saveImage(entity.getFile()) : null;
-
-        Set<Speakers> speakersSet = new HashSet<>();
-        for (int speaker : speakers) {
-            Speakers speakers1 = speakerRepository.findById(speaker).orElseThrow(NotFoundException::new);
-            speakersSet.add(speakers1);
-        }
+    private Webinar buildWebinarFromDto(WebinarDto webinarDto) throws IOException {
+        List<Integer> speakerIds = webinarDto.getSpeakers();
+        String image = (webinarDto.getFile() != null) ? imageService.saveImage(webinarDto.getFile()) : null;
+        Set<Speakers> speakersSet = getSpeakersSetFromIds(speakerIds);
 
         return Webinar.builder()
-                .description_en(entity.getDescription_en())
-                .description_ru(entity.getDescription_ru())
+                .description_en(webinarDto.getDescription_en())
+                .description_ru(webinarDto.getDescription_ru())
                 .speakers(speakersSet)
-                .online(entity.getOnline())
-                .description_uz(entity.getDescription_uz())
+                .online(webinarDto.getOnline())
+                .description_uz(webinarDto.getDescription_uz())
                 .link(image)
-                .field(entity.getField())
-                .time(entity.getTime())
-                .city(entity.getCity())
-                .title_uz(entity.getTitle_uz())
-                .title_ru(entity.getTitle_ru())
-                .title_en(entity.getTitle_en())
+                .field(webinarDto.getField())
+                .time(webinarDto.getTime())
+                .city(webinarDto.getCity())
+                .title_uz(webinarDto.getTitle_uz())
+                .title_ru(webinarDto.getTitle_ru())
+                .title_en(webinarDto.getTitle_en())
                 .build();
+    }
+
+    private Set<Speakers> getSpeakersSetFromIds(List<Integer> speakerIds) {
+        return speakerIds.stream()
+                .map(speakerId -> speakerRepository.findById(speakerId).orElseThrow(NotFoundException::new))
+                .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<String> listOfCities() {
+        return webinarRepository.findAll()
+                .stream()
+                .map(Webinar::getCity)
+                .distinct()
+                .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<String> listOfFields() {
+        return webinarRepository.findAll()
+                .stream()
+                .map(Webinar::getField)
+                .distinct()
+                .collect(Collectors.toSet());
     }
 
 

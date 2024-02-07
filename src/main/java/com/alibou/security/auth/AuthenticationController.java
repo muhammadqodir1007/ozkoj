@@ -43,7 +43,7 @@ public class AuthenticationController {
 
     }
 
-    @GetMapping("/forgot-password")
+    @PostMapping("/forgot-password")
     public ApiResult<RegisterResponse> forgotPassword(@RequestParam String email) {
         return service.forgotPassword(email);
     }

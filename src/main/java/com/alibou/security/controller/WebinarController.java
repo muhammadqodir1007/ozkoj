@@ -1,7 +1,8 @@
 package com.alibou.security.controller;
 
-import com.alibou.security.entity.Webinar;
+import com.alibou.security.payload.ApiResult;
 import com.alibou.security.payload.WebinarDto;
+import com.alibou.security.payload.WebinarDtoResponse;
 import com.alibou.security.service.WebinarService;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/webinars")
@@ -23,19 +25,19 @@ public class WebinarController {
     private final WebinarService webinarService;
 
     @GetMapping
-    public ResponseEntity<List<Webinar>> getAllWebinars() {
-        List<Webinar> webinars = webinarService.findAll();
+    public ResponseEntity<List<WebinarDtoResponse>> getAllWebinars() {
+        List<WebinarDtoResponse> webinars = webinarService.findAll();
         return new ResponseEntity<>(webinars, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Webinar> getWebinarById(@PathVariable Integer id) {
-        Webinar webinar = webinarService.findById(id);
+    public ResponseEntity<WebinarDtoResponse> getWebinarById(@PathVariable Integer id) {
+        WebinarDtoResponse webinar = webinarService.findById(id);
         return new ResponseEntity<>(webinar, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Webinar> createWebinar(
+    public ResponseEntity<ApiResult<String>> createWebinar(
             @RequestParam("title_uz") String title_uz,
             @RequestParam("title_en") String title_en,
             @RequestParam("title_ru") String title_ru,
@@ -50,7 +52,6 @@ public class WebinarController {
             @RequestParam("time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime time
     ) throws IOException {
 
-
         String[] numbersAsString = speakers.split(",");
         List<Integer> list = new ArrayList<>();
         for (String number : numbersAsString) {
@@ -58,27 +59,35 @@ public class WebinarController {
             list.add(parsedNumber);
         }
 
-        WebinarDto webinarDto = new WebinarDto();
-        webinarDto.setTitle_uz(title_uz);
-        webinarDto.setTitle_en(title_en);
-        webinarDto.setTitle_ru(title_ru);
-        webinarDto.setDescription_uz(description_uz);
-        webinarDto.setDescription_en(description_en);
-        webinarDto.setDescription_ru(description_ru);
-        webinarDto.setFile(file);
-        webinarDto.setField(field);
-        webinarDto.setTime(time);
-        webinarDto.setCity(city);
-        webinarDto.setOnline(online);
-        webinarDto.setSpeakers(list);
-        System.out.println(webinarDto);
+        WebinarDto webinarDto = WebinarDto.builder().file(file)
+                .field(field)
+                .online(online)
+                .description_en(description_en)
+                .description_ru(description_ru)
+                .description_uz(description_uz)
+                .title_uz(title_uz)
+                .title_en(title_en)
+                .title_ru(title_ru)
+                .time(time)
+                .city(city)
+                .field(field)
+                .speakers(list).build();
 
-        Webinar createdWebinar = webinarService.create(webinarDto);
-        return new ResponseEntity<>(createdWebinar, HttpStatus.CREATED);
+        ApiResult<String> stringApiResult =
+                webinarService.create(webinarDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(stringApiResult);
     }
 
+
+    @PatchMapping
+    public ResponseEntity<WebinarDtoResponse> updateUser(@RequestParam("webinarId") int webinarId, @RequestParam("userId") int userId) {
+        WebinarDtoResponse webinarDtoResponse = webinarService.updateUser(webinarId, userId);
+        return ResponseEntity.ok(webinarDtoResponse);
+    }
+
+
     @PatchMapping("/{id}")
-    public ResponseEntity<Webinar> updateWebinar(
+    public ResponseEntity<WebinarDtoResponse> updateWebinar(
             @PathVariable Integer id,
             @RequestParam(value = "title_uz", required = false) String title_uz,
             @RequestParam(value = "title_en", required = false) String title_en,
@@ -104,28 +113,45 @@ public class WebinarController {
                 list.add(parsedNumber);
             }
         }
+        WebinarDto webinarDto = WebinarDto.builder().file(file)
+                .field(field)
+                .online(online)
+                .description_en(description_en)
+                .description_ru(description_ru)
+                .description_uz(description_uz)
+                .title_uz(title_uz)
+                .title_en(title_en)
+                .title_ru(title_ru)
+                .time(time)
+                .city(city)
+                .field(field)
+                .speakers(list).build();
 
-        WebinarDto webinarDto = new WebinarDto();
-        webinarDto.setTitle_uz(title_uz);
-        webinarDto.setTitle_en(title_en);
-        webinarDto.setField(field);
-        webinarDto.setTitle_ru(title_ru);
-        webinarDto.setDescription_uz(description_uz);
-        webinarDto.setDescription_en(description_en);
-        webinarDto.setDescription_ru(description_ru);
-        webinarDto.setFile(file);
-        webinarDto.setCity(city);
-        webinarDto.setOnline(online);
-        webinarDto.setTime(time);
-        webinarDto.setSpeakers(list);
 
-        Webinar updatedWebinar = webinarService.update(id, webinarDto);
+        WebinarDtoResponse updatedWebinar = webinarService.update(id, webinarDto);
         return new ResponseEntity<>(updatedWebinar, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteWebinar(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteWebinar(@PathVariable Integer id) throws IOException {
         webinarService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+
+    @GetMapping("/city")
+    public ResponseEntity<Set<String>> listOfCities() {
+        Set<String> set = webinarService.listOfCities();
+        return ResponseEntity.ok(set);
+
+    }
+
+    @GetMapping("/field")
+    public ResponseEntity<Set<String>> listOfFields() {
+        Set<String> set = webinarService.listOfFields();
+        return ResponseEntity.ok(set);
+
+    }
+
+
 }

@@ -81,7 +81,7 @@ public class ArticleController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteNews(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteNews(@PathVariable Integer id) throws IOException {
         newsService.delete(id);
         return ResponseEntity.noContent().build();
     }

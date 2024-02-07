@@ -1,6 +1,5 @@
 package com.alibou.security;
 
-import com.alibou.security.auth.AuthenticationService;
 import com.alibou.security.user.User;
 import com.alibou.security.user.UserRepository;
 import lombok.AllArgsConstructor;
@@ -23,7 +22,6 @@ public class SecurityApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SecurityApplication.class, args);
-
 
     }
 

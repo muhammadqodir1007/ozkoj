@@ -66,7 +66,7 @@ public class SpeakerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSpeaker(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteSpeaker(@PathVariable Integer id) throws IOException {
         speakerService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

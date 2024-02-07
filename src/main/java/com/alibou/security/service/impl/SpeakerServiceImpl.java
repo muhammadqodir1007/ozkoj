@@ -52,7 +52,7 @@ public class SpeakerServiceImpl implements SpeakerService {
 
 
         Speakers speakers = speakerRepository.findById(integer).orElseThrow(NotFoundException::new);
-        if (entity.getFile()!=null) {
+        if (entity.getFile() != null) {
             speakers.setLink(imageService.saveImage(entity.getFile()));
         }
         if (entity.getDescription_uz() != null) {
@@ -72,7 +72,9 @@ public class SpeakerServiceImpl implements SpeakerService {
     }
 
     @Override
-    public void delete(Integer integer) {
+    public void delete(Integer integer) throws IOException {
+        Speakers speakers = speakerRepository.findById(integer).orElseThrow(NotFoundException::new);
+        imageService.deleteImage(speakers.getLink());
         speakerRepository.deleteById(integer);
     }
 
