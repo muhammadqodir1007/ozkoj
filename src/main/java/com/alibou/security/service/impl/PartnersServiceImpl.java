@@ -52,20 +52,24 @@ public class PartnersServiceImpl implements PartnersService {
             partners.setLink(imageService.saveImage(entity.getFile()));
         }
 
-        // Check and update only if the corresponding field in PartnersDto is not null
-        partners.setTitle_uz(entity.getTitle_uz() != null ? entity.getTitle_uz() : partners.getTitle_uz());
-        partners.setTitle_ru(entity.getTitle_ru() != null ? entity.getTitle_ru() : partners.getTitle_ru());
-        partners.setTitle_en(entity.getTitle_en() != null ? entity.getTitle_en() : partners.getTitle_en());
-        partners.setUrl(entity.getUrl() != null ? entity.getUrl() : partners.getUrl());
+        updateIfNotNull(entity.getTitle_uz(), partners::setTitle_uz);
+        updateIfNotNull(entity.getTitle_ru(), partners::setTitle_ru);
+        updateIfNotNull(entity.getTitle_en(), partners::setTitle_en);
+        updateIfNotNull(entity.getUrl(), partners::setUrl);
 
         return partnersRepository.save(partners);
     }
-
 
     @Override
     public void delete(Integer id) throws IOException {
         Partners partners = partnersRepository.findById(id).orElseThrow(NotFoundException::new);
         imageService.deleteImage(partners.getLink());
         partnersRepository.deleteById(id);
+    }
+
+    private <T> void updateIfNotNull(T value, java.util.function.Consumer<T> updater) {
+        if (value != null) {
+            updater.accept(value);
+        }
     }
 }

@@ -19,7 +19,7 @@ public class Partners {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String link;  //image link
+    private String link; //image link
     private String title_uz;
     private String title_ru;
     private String title_en;

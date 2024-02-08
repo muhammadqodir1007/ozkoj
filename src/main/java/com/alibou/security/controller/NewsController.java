@@ -16,7 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/api/news")
 public class NewsController {
-    private NewsService newsService;
+
+    private final NewsService newsService;
 
     @GetMapping
     public ResponseEntity<List<News>> getAllNews() {

@@ -21,53 +21,55 @@ public class SpeakerController {
     @GetMapping
     public ResponseEntity<List<Speakers>> getAllSpeakers() {
         List<Speakers> speakersList = speakerService.findAll();
-        return new ResponseEntity<>(speakersList, HttpStatus.OK);
+        return ResponseEntity.ok(speakersList);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Speakers> getSpeakerById(@PathVariable Integer id) {
         Speakers speaker = speakerService.findById(id);
-        return new ResponseEntity<>(speaker, HttpStatus.OK);
+        return ResponseEntity.ok(speaker);
     }
 
     @PostMapping
-    public ResponseEntity<Speakers> createSpeaker(@RequestParam("fullName") String fullName,
-                                                  @RequestParam("description_uz") String description_uz,
-                                                  @RequestParam("description_ru") String description_ru,
-                                                  @RequestParam("description_en") String description_en,
-                                                  @RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<Speakers> createSpeaker(
+            @RequestParam("fullName") String fullName,
+            @RequestParam("description_uz") String descriptionUz,
+            @RequestParam("description_ru") String descriptionRu,
+            @RequestParam("description_en") String descriptionEn,
+            @RequestParam("file") MultipartFile file) throws IOException {
         SpeakerDto speakerDto = new SpeakerDto();
         speakerDto.setFullName(fullName);
-        speakerDto.setDescription_en(description_en);
-        speakerDto.setDescription_ru(description_ru);
-        speakerDto.setDescription_uz(description_uz);
+        speakerDto.setDescription_uz(descriptionUz);
+        speakerDto.setDescription_ru(descriptionRu);
+        speakerDto.setDescription_en(descriptionEn);
         speakerDto.setFile(file);
 
         Speakers createdSpeaker = speakerService.create(speakerDto);
-        return new ResponseEntity<>(createdSpeaker, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdSpeaker);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Speakers> updateSpeaker(@PathVariable Integer id,
-                                                  @RequestParam(value = "fullName",required = false) String fullName,
-                                                  @RequestParam(value = "description_uz", required = false) String description_uz,
-                                                  @RequestParam(value = "description_ru", required = false) String description_ru,
-                                                  @RequestParam(value = "description_en", required = false) String description_en,
-                                                  @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
+    public ResponseEntity<Speakers> updateSpeaker(
+            @PathVariable Integer id,
+            @RequestParam(value = "fullName", required = false) String fullName,
+            @RequestParam(value = "description_uz", required = false) String descriptionUz,
+            @RequestParam(value = "description_ru", required = false) String descriptionRu,
+            @RequestParam(value = "description_en", required = false) String descriptionEn,
+            @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
         SpeakerDto speakerDto = new SpeakerDto();
         speakerDto.setFullName(fullName);
         speakerDto.setFile(file);
-        speakerDto.setDescription_en(description_en);
-        speakerDto.setDescription_ru(description_ru);
-        speakerDto.setDescription_uz(description_uz);
+        speakerDto.setDescription_uz(descriptionUz);
+        speakerDto.setDescription_ru(descriptionRu);
+        speakerDto.setDescription_en(descriptionEn);
 
         Speakers updatedSpeaker = speakerService.update(id, speakerDto);
-        return new ResponseEntity<>(updatedSpeaker, HttpStatus.OK);
+        return ResponseEntity.ok(updatedSpeaker);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSpeaker(@PathVariable Integer id) throws IOException {
         speakerService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 }

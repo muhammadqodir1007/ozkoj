@@ -14,8 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class MaterialServiceImpl implements MaterialService {
 
-    MaterialRepository materialRepository;
-
+    private final MaterialRepository materialRepository;
 
     @Override
     public List<Material> findAll() {
@@ -23,8 +22,8 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     @Override
-    public Material findById(Integer integer) {
-        return materialRepository.findById(integer).orElseThrow(NullPointerException::new);
+    public Material findById(Integer materialId) {
+        return materialRepository.findById(materialId).orElseThrow(NullPointerException::new);
     }
 
     @Override
@@ -34,12 +33,10 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     @Override
-    public Material update(Integer integer, Material entity) throws IOException {
-        Material material = materialRepository.findById(integer).orElseThrow(NullPointerException::new);
+    public Material update(Integer materialId, Material entity) throws IOException {
+        Material material = materialRepository.findById(materialId).orElseThrow(NullPointerException::new);
+
         if (entity.getDescription_ru() != null) {
-            material.setDescription_ru(entity.getDescription_ru());
-        }
-        if (entity.getDescription_en() != null) {
             material.setDescription_ru(entity.getDescription_ru());
         }
         if (entity.getDescription_en() != null) {
@@ -52,17 +49,14 @@ public class MaterialServiceImpl implements MaterialService {
             material.setTitle_ru(entity.getTitle_ru());
         }
         if (entity.getTitle_en() != null) {
-            material.setTitle_ru(entity.getTitle_ru());
-        }
-        if (entity.getTitle_en() != null) {
             material.setTitle_en(entity.getTitle_en());
         }
+
         return materialRepository.save(material);
     }
 
     @Override
-    public void delete(Integer integer) {
-        materialRepository.deleteById(integer);
-
+    public void delete(Integer materialId) {
+        materialRepository.deleteById(materialId);
     }
 }

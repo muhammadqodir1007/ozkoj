@@ -1,11 +1,9 @@
 package com.alibou.security.service.impl;
 
 import com.alibou.security.entity.Article;
-import com.alibou.security.entity.News;
 import com.alibou.security.exceptions.NotFoundException;
 import com.alibou.security.image.ImageService;
 import com.alibou.security.payload.ArticleDto;
-import com.alibou.security.payload.NewsDto;
 import com.alibou.security.repository.ArticleRepository;
 import com.alibou.security.repository.NewsRepository;
 import com.alibou.security.service.ArticleService;
@@ -19,27 +17,28 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
-    ArticleRepository repository;
-    ImageService imageService;
-    private final NewsRepository newsRepository;
 
+    private final ArticleRepository articleRepository;
+    private final ImageService imageService;
+    private final NewsRepository newsRepository;
 
     @Override
     public List<Article> findAll() {
-        return repository.findAll();
+        return articleRepository.findAll();
     }
 
     @Override
-    public Article findById(Integer integer) {
-        return repository.findById(integer).orElseThrow(NotFoundException::new);
+    public Article findById(Integer articleId) {
+        return articleRepository.findById(articleId)
+                .orElseThrow(NotFoundException::new);
     }
 
     @Override
-    public Article create(NewsDto entity) throws IOException {
+    public Article create(ArticleDto entity) throws IOException {
         String link = imageService.saveImage(entity.getFile());
         LocalDateTime now = LocalDateTime.now();
 
-        Article news = Article.builder()
+        Article article = Article.builder()
                 .title_uz(entity.getTitle_uz())
                 .title_ru(entity.getTitle_ru())
                 .title_en(entity.getTitle_en())
@@ -50,43 +49,47 @@ public class ArticleServiceImpl implements ArticleService {
                 .createdDate(now)
                 .build();
 
-        return repository.save(news);
+        return articleRepository.save(article);
     }
 
     @Override
-    public Article update(Integer newsId, ArticleDto entity) throws IOException {
-        Article news = repository.findById(newsId).orElseThrow(NotFoundException::new);
+    public Article update(Integer articleId, ArticleDto entity) throws IOException {
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(NotFoundException::new);
 
         if (entity.getFile() != null) {
-            news.setLink(imageService.saveImage(entity.getFile()));
+            article.setLink(imageService.saveImage(entity.getFile()));
         }
 
         if (entity.getTitle_uz() != null) {
-            news.setTitle_uz(entity.getTitle_uz());
+            article.setTitle_uz(entity.getTitle_uz());
         }
         if (entity.getTitle_en() != null) {
-            news.setTitle_en(entity.getTitle_en());
+            article.setTitle_en(entity.getTitle_en());
         }
         if (entity.getTitle_ru() != null) {
-            news.setTitle_ru(entity.getTitle_ru());
+            article.setTitle_ru(entity.getTitle_ru());
         }
 
         if (entity.getDescription_uz() != null) {
-            news.setDescription_uz(entity.getDescription_uz());
+            article.setDescription_uz(entity.getDescription_uz());
         }
         if (entity.getDescription_en() != null) {
-            news.setDescription_en(entity.getDescription_en());
+            article.setDescription_en(entity.getDescription_en());
         }
         if (entity.getDescription_ru() != null) {
-            news.setDescription_ru(entity.getDescription_ru());
+            article.setDescription_ru(entity.getDescription_ru());
         }
-        return repository.save(news);
+
+        return articleRepository.save(article);
     }
 
     @Override
-    public void delete(Integer integer) throws IOException {
-        News news = newsRepository.findById(integer).orElseThrow(NotFoundException::new);
-        imageService.deleteImage(news.getLink());
-        repository.deleteById(integer);
+    public void delete(Integer articleId) throws IOException {
+        Article article = articleRepository.findById(articleId)
+                .orElseThrow(NotFoundException::new);
+
+        imageService.deleteImage(article.getLink());
+        articleRepository.deleteById(articleId);
     }
 }

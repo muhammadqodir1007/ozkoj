@@ -13,13 +13,13 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 
-@AllArgsConstructor
 @Service
+@AllArgsConstructor
 @Slf4j
 public class SpeakerServiceImpl implements SpeakerService {
-    ImageService imageService;
 
-    SpeakerRepository speakerRepository;
+    private final ImageService imageService;
+    private final SpeakerRepository speakerRepository;
 
     @Override
     public List<Speakers> findAll() {
@@ -27,56 +27,51 @@ public class SpeakerServiceImpl implements SpeakerService {
     }
 
     @Override
-    public Speakers findById(Integer integer) {
-        return speakerRepository.findById(integer).orElseThrow(NotFoundException::new);
+    public Speakers findById(Integer speakerId) {
+        return speakerRepository.findById(speakerId).orElseThrow(NotFoundException::new);
     }
-
 
     @Override
     public Speakers create(SpeakerDto entity) throws IOException {
-
         String link = imageService.saveImage(entity.getFile());
         log.info("Image link: {}", link);
 
-        Speakers speakers = Speakers.builder().
-                description_uz(entity.getDescription_uz()).
-                description_ru(entity.getDescription_ru()).
-                description_en(entity.getDescription_en()).
-                fullName(entity.getFullName()).link(link).
-                build();
+        Speakers speakers = Speakers.builder()
+                .description_uz(entity.getDescription_uz())
+                .description_ru(entity.getDescription_ru())
+                .description_en(entity.getDescription_en())
+                .fullName(entity.getFullName())
+                .link(link)
+                .build();
+
         return speakerRepository.save(speakers);
     }
 
     @Override
-    public Speakers update(Integer integer, SpeakerDto entity) throws IOException {
+    public Speakers update(Integer speakerId, SpeakerDto entity) throws IOException {
+        Speakers speakers = speakerRepository.findById(speakerId).orElseThrow(NotFoundException::new);
 
-
-        Speakers speakers = speakerRepository.findById(integer).orElseThrow(NotFoundException::new);
         if (entity.getFile() != null) {
             speakers.setLink(imageService.saveImage(entity.getFile()));
         }
-        if (entity.getDescription_uz() != null) {
-            speakers.setDescription_uz(entity.getDescription_uz());
-        }
-        if (entity.getDescription_en() != null) {
-            speakers.setDescription_en(entity.getDescription_en());
-        }
-        if (entity.getDescription_ru() != null) {
-            speakers.setDescription_ru(entity.getDescription_ru());
-        }
-        if (entity.getFullName() != null) {
-            speakers.setFullName(entity.getFullName());
-        }
-        return speakerRepository.save(speakers);    //not finished
+        updateIfNotNull(entity.getDescription_uz(), speakers::setDescription_uz);
+        updateIfNotNull(entity.getDescription_en(), speakers::setDescription_en);
+        updateIfNotNull(entity.getDescription_ru(), speakers::setDescription_ru);
+        updateIfNotNull(entity.getFullName(), speakers::setFullName);
 
+        return speakerRepository.save(speakers);
     }
 
     @Override
-    public void delete(Integer integer) throws IOException {
-        Speakers speakers = speakerRepository.findById(integer).orElseThrow(NotFoundException::new);
+    public void delete(Integer speakerId) throws IOException {
+        Speakers speakers = speakerRepository.findById(speakerId).orElseThrow(NotFoundException::new);
         imageService.deleteImage(speakers.getLink());
-        speakerRepository.deleteById(integer);
+        speakerRepository.deleteById(speakerId);
     }
 
-
+    private <T> void updateIfNotNull(T value, java.util.function.Consumer<T> updater) {
+        if (value != null) {
+            updater.accept(value);
+        }
+    }
 }

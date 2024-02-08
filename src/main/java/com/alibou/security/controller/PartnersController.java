@@ -53,11 +53,11 @@ public class PartnersController {
     @PatchMapping("/{id}")
     public ResponseEntity<Partners> updatePartners(
             @PathVariable Integer id,
-            @RequestParam(value = "title_uz", required = false) String title_uz,
-            @RequestParam(value = "title_ru", required = false) String title_ru,
-            @RequestParam(value = "title_en", required = false) String title_en,
-            @RequestParam(value = "url", required = false) String url,
-            @RequestParam(value = "file", required = false) MultipartFile file
+            @RequestParam(required = false) String title_uz,
+            @RequestParam(required = false) String title_ru,
+            @RequestParam(required = false) String title_en,
+            @RequestParam(required = false) String url,
+            @RequestParam(required = false) MultipartFile file
     ) throws IOException {
         PartnersDto partnersDto = new PartnersDto();
         partnersDto.setTitle_uz(title_uz);

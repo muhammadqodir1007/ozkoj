@@ -16,10 +16,10 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class NewsServiceImpl implements NewsService {
-    NewsRepository repository;
-    NewsRepository newsRepository;
-    ImageService imageService;
 
+    private final NewsRepository repository;
+    private final NewsRepository newsRepository;
+    private final ImageService imageService;
 
     @Override
     public List<News> findAll() {
@@ -27,8 +27,8 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public News findById(Integer integer) {
-        return repository.findById(integer).orElseThrow(NotFoundException::new);
+    public News findById(Integer newsId) {
+        return repository.findById(newsId).orElseThrow(NotFoundException::new);
     }
 
     @Override
@@ -82,9 +82,9 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public void delete(Integer integer) throws IOException {
-        News news = newsRepository.findById(integer).orElseThrow(NotFoundException::new);
+    public void delete(Integer newsId) throws IOException {
+        News news = newsRepository.findById(newsId).orElseThrow(NotFoundException::new);
         imageService.deleteImage(news.getLink());
-        newsRepository.deleteById(integer);
+        newsRepository.deleteById(newsId);
     }
 }

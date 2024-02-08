@@ -40,8 +40,8 @@ public class WebinarServiceImpl implements WebinarService {
     }
 
     @Override
-    public WebinarDtoResponse findById(Integer id) {
-        Webinar webinar = webinarRepository.findById(id).orElseThrow(NotFoundException::new);
+    public WebinarDtoResponse findById(Integer webinarId) {
+        Webinar webinar = webinarRepository.findById(webinarId).orElseThrow(NotFoundException::new);
         return convertToDto(webinar);
     }
 
@@ -69,17 +69,17 @@ public class WebinarServiceImpl implements WebinarService {
     }
 
     @Override
-    public void delete(Integer id) throws IOException {
-        Webinar webinar = webinarRepository.findById(id).orElseThrow(NotFoundException::new);
+    public void delete(Integer webinarId) throws IOException {
+        Webinar webinar = webinarRepository.findById(webinarId).orElseThrow(NotFoundException::new);
         imageService.deleteImage(webinar.getLink());
-        webinarRepository.deleteById(id);
+        webinarRepository.deleteById(webinarId);
     }
 
     @Override
-    public WebinarDtoResponse update(Integer id, WebinarDto webinarDto) throws IOException {
-        Webinar oldWebinar = webinarRepository.findById(id).orElseThrow(NotFoundException::new);
+    public WebinarDtoResponse update(Integer webinarId, WebinarDto webinarDto) throws IOException {
+        Webinar oldWebinar = webinarRepository.findById(webinarId).orElseThrow(NotFoundException::new);
         Webinar newWebinar = buildWebinarFromDto(webinarDto);
-        Webinar updatedWebinar = check(oldWebinar, newWebinar);
+        Webinar updatedWebinar = updateFields(oldWebinar, newWebinar);
         return convertToDto(webinarRepository.save(updatedWebinar));
     }
 
@@ -91,6 +91,22 @@ public class WebinarServiceImpl implements WebinarService {
         users.add(user);
         webinar.setUser(users);
         return convertToDto(webinarRepository.save(webinar));
+    }
+
+    @Override
+    public Set<String> listOfCities() {
+        return webinarRepository.findAll()
+                .stream()
+                .map(Webinar::getCity)
+                .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<String> listOfFields() {
+        return webinarRepository.findAll()
+                .stream()
+                .map(Webinar::getField)
+                .collect(Collectors.toSet());
     }
 
     private WebinarDtoResponse convertToDto(Webinar webinar) {
@@ -111,7 +127,7 @@ public class WebinarServiceImpl implements WebinarService {
                 .build();
     }
 
-    private Webinar check(Webinar oldWebinar, Webinar newWebinar) {
+    private Webinar updateFields(Webinar oldWebinar, Webinar newWebinar) {
         if (newWebinar.getDescription_en() != null) {
             oldWebinar.setDescription_en(newWebinar.getDescription_en());
         }
@@ -180,22 +196,4 @@ public class WebinarServiceImpl implements WebinarService {
                 .map(speakerId -> speakerRepository.findById(speakerId).orElseThrow(NotFoundException::new))
                 .collect(Collectors.toSet());
     }
-
-    @Override
-    public Set<String> listOfCities() {
-        return webinarRepository.findAll()
-                .stream()
-                .map(Webinar::getCity)
-                .collect(Collectors.toSet());
-    }
-
-    @Override
-    public Set<String> listOfFields() {
-        return webinarRepository.findAll()
-                .stream()
-                .map(Webinar::getField)
-                .collect(Collectors.toSet());
-    }
-
-
 }

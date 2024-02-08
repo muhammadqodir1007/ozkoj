@@ -61,37 +61,4 @@ public class MailServiceImpl implements MailService {
         thread.start();
     }
 
-//    @Override
-//    public void sendEmailForForForgotPassword(String to, String verificationCode) {
-//
-//
-//        try {
-//            MimeMessage mimeMessage = mailSender.createMimeMessage();
-//            mimeMessage.set
-//            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, " charset=utf-8");
-//            helper.setTo(to);
-//            helper.setSubject("subject");
-//            helper.setFrom(sender);
-//            String resetLink = confirmLinkIPAndPort + conformEmailForResetForgottenPasswordURL + to + "/" + verificationCode;
-//            String forgotPassword = textForForgotPassword(resetLink);
-//            mimeMessage.setContent(forgotPassword, "text/html; charset=utf-8");
-//            Thread thread = new Thread(() -> mailSender.send(mimeMessage));
-//            thread.start();
-//        } catch (MessagingException e) {
-//            LOGGER.error("failed to send email", e);
-//            throw new IllegalStateException("failed to send email");
-//        }
-//    }
-//
-//    @Override
-//    public String textForConfirmationEmail(String confirmLink) {
-//        return null;
-//    }
-//
-//    @Override
-//    public String textForForgotPassword(String confirmLink) {
-//        return null;
-//    }
 }
-
-

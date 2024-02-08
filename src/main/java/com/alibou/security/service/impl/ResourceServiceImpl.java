@@ -16,8 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 public class ResourceServiceImpl implements ResourceService {
 
-    private ImageService imageService;
-    private ResourceRepository resourceRepository;
+    private final ImageService imageService;
+    private final ResourceRepository resourceRepository;
 
     @Override
     public List<Resource> findAll() {
@@ -25,15 +25,20 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public Resource findById(Integer id) {
-        return resourceRepository.findById(id).orElseThrow(NotFoundException::new);
+    public Resource findById(Integer resourceId) {
+        return resourceRepository.findById(resourceId).orElseThrow(NotFoundException::new);
     }
 
     @Override
     public Resource create(ResourceDto resourceDto) throws IOException {
         String link = imageService.saveImage(resourceDto.getMultipartFile());
-        Resource build = Resource.builder().fileLink(link).description_uz(resourceDto.getDescription_uz()).description_en(resourceDto.getDescription_en()).description_ru(resourceDto.getDescription_ru()).build();
-        return resourceRepository.save(build);
+        Resource resource = Resource.builder()
+                .fileLink(link)
+                .description_uz(resourceDto.getDescription_uz())
+                .description_en(resourceDto.getDescription_en())
+                .description_ru(resourceDto.getDescription_ru())
+                .build();
+        return resourceRepository.save(resource);
     }
 
     @Override
@@ -41,29 +46,26 @@ public class ResourceServiceImpl implements ResourceService {
         Resource existingResource = resourceRepository.findById(resourceId).orElseThrow(NotFoundException::new);
 
         if (resourceDto.getMultipartFile() != null) {
-            String s = imageService.saveImage(resourceDto.getMultipartFile());
-            existingResource.setFileLink(s);
+            String link = imageService.saveImage(resourceDto.getMultipartFile());
+            existingResource.setFileLink(link);
         }
-
-        if (resourceDto.getDescription_uz() != null) {
-            existingResource.setDescription_uz(resourceDto.getDescription_uz());
-        }
-        if (resourceDto.getDescription_en() != null) {
-            existingResource.setDescription_en(resourceDto.getDescription_en());
-        }
-        if (resourceDto.getDescription_ru() != null) {
-            existingResource.setDescription_ru(resourceDto.getDescription_ru());
-        }
-
+        updateIfNotNull(resourceDto.getDescription_uz(), existingResource::setDescription_uz);
+        updateIfNotNull(resourceDto.getDescription_en(), existingResource::setDescription_en);
+        updateIfNotNull(resourceDto.getDescription_ru(), existingResource::setDescription_ru);
 
         return resourceRepository.save(existingResource);
     }
 
-
     @Override
-    public void delete(Integer id) throws IOException {
-        Resource resource = resourceRepository.findById(id).orElseThrow(NotFoundException::new);
+    public void delete(Integer resourceId) throws IOException {
+        Resource resource = resourceRepository.findById(resourceId).orElseThrow(NotFoundException::new);
         imageService.deleteImage(resource.getFileLink());
-        resourceRepository.deleteById(id);
+        resourceRepository.deleteById(resourceId);
+    }
+
+    private <T> void updateIfNotNull(T value, java.util.function.Consumer<T> updater) {
+        if (value != null) {
+            updater.accept(value);
+        }
     }
 }
