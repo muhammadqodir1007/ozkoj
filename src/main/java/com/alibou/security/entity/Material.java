@@ -21,12 +21,12 @@ public class Material {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-  public static   String title_uz;
-    String title_ru;
-    String title_en;
-    String description_uz;
-    String description_en;
-    String description_ru;
-    String link;
-    LocalDateTime createdDate;
+    private String title_uz;
+    private String title_ru;
+    private String title_en;
+    private String description_uz;
+    private String description_en;
+    private String description_ru;
+    private String link;
+    private LocalDateTime createdDate;
 }

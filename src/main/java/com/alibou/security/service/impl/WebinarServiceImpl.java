@@ -112,6 +112,7 @@ public class WebinarServiceImpl implements WebinarService {
     private WebinarDtoResponse convertToDto(Webinar webinar) {
         return WebinarDtoResponse.builder()
                 .userDtos(webinar.getUser().stream().map(UserDto::fromUser).collect(Collectors.toList()))
+                .id(webinar.getId())
                 .description_en(webinar.getDescription_en())
                 .time(webinar.getTime())
                 .description_ru(webinar.getDescription_ru())

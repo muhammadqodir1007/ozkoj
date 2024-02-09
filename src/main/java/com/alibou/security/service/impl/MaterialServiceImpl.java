@@ -42,11 +42,17 @@ public class MaterialServiceImpl implements MaterialService {
         if (entity.getDescription_en() != null) {
             material.setDescription_en(entity.getDescription_en());
         }
+        if (entity.getDescription_uz() != null) {
+            material.setDescription_uz(entity.getDescription_uz());
+        }
         if (entity.getLink() != null) {
             material.setLink(entity.getLink());
         }
         if (entity.getTitle_ru() != null) {
             material.setTitle_ru(entity.getTitle_ru());
+        }
+        if (entity.getTitle_uz() != null) {
+            material.setTitle_uz(entity.getTitle_uz());
         }
         if (entity.getTitle_en() != null) {
             material.setTitle_en(entity.getTitle_en());

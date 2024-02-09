@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 public class WebinarDtoResponse {
 
-
+    private int id;
     private String title_uz;
     private String title_en;
     private String title_ru;

@@ -57,7 +57,7 @@ public class SecurityConfiguration {
                                 .permitAll()
                                 .requestMatchers("/api/v1/management/**").hasAnyRole(ADMIN.name(), MANAGER.name())
                                 .requestMatchers(GET, "/api/speakers/**", "/api/news/**", "/api/resources/**"
-                                        , "/api/partners/**", "/api/webinars/**", "/api/article/**", "/api/materials/**").permitAll()
+                                        , "/api/partners/**", "/api/webinars/**", "/api/articles/**", "/api/materials/**").permitAll()
                                 .anyRequest()
                                 .authenticated()
                 )
