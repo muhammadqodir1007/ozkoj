@@ -38,9 +38,7 @@ public class AuthenticationController {
 
     @PostMapping("/refresh-token")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
         service.refreshToken(request, response);
-
     }
 
     @PostMapping("/forgot-password")
@@ -48,7 +46,7 @@ public class AuthenticationController {
         return service.forgotPassword(email);
     }
 
-    @PostMapping(value = "/reset-forgotten-password")
+    @PostMapping( "/reset-forgotten-password")
     public ApiResult<RegisterResponse> resetForgottenPassword(@RequestBody ResetForgottenPasswordDTO resetForgottenPasswordDTO) {
         return service.resetForgottenPassword(resetForgottenPasswordDTO);
     }

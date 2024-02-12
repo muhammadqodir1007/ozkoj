@@ -17,7 +17,6 @@ public class MailServiceImpl implements MailService {
     private final JavaMailSender mailSender;
 
     private final static Logger LOGGER = LoggerFactory.getLogger(MailServiceImpl.class);
-    //    @Value("${spring.mail.username}")
     String sender = "DoctorS.Med.Fazo@gmail.com";
 
     public MailServiceImpl(JavaMailSender mailSender) {
@@ -54,7 +53,7 @@ public class MailServiceImpl implements MailService {
         simpleMailMessage.setTo(to);
         simpleMailMessage.setFrom(sender);
         simpleMailMessage.setSubject("subject");
-        String href = confirmLinkIPAndPort + conformEmailForResetForgottenPasswordURL + verificationCode;
+        String href = conformEmailForResetForgottenPasswordURL + verificationCode;
         String text = MessageByLang.getMessage("TEXT_OF_EMAIL") + "\n" + href;
         simpleMailMessage.setText(text);
         Thread thread = new Thread(() -> mailSender.send(simpleMailMessage));

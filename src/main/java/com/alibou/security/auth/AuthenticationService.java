@@ -61,9 +61,10 @@ public class AuthenticationService {
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
+        Integer id = user.getId();
         saveUserToken(user, jwtToken);
         System.out.println(jwtToken + refreshToken);
-        return AuthenticationResponse.builder().accessToken(jwtToken).refreshToken(refreshToken).build();
+        return AuthenticationResponse.builder().accessToken(jwtToken).refreshToken(refreshToken).id(id).build();
     }
 
 
@@ -128,8 +129,6 @@ public class AuthenticationService {
 
         if (!Objects.equals(resetForgottenPasswordDTO.getPassword(), resetForgottenPasswordDTO.getPrePassword()))
             return ApiResult.errorResponseWithData(new RegisterResponse(false, MessageByLang.getMessage("PASSWORDS_NOT_EQUAL")));
-
-
         Optional<User> userOptional = repository.findByVerificationCode(resetForgottenPasswordDTO.getVerificationCode());
         if (userOptional.isEmpty())
             return ApiResult.errorResponseWithData(RegisterResponse.wrongVerificationCode(MessageByLang.getMessage("INVALID_VERIFICATION_CODE")));

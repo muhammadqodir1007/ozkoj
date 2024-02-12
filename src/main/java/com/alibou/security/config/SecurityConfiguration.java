@@ -31,6 +31,7 @@ public class SecurityConfiguration {
                     "/api/materials/**",
                     "/api/images/**",
                     "/api/home/**",
+                    "/uploadFile/**",
                     "/configuration/security",
 
             };
@@ -70,7 +71,6 @@ public class SecurityConfiguration {
                                 .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
                 )
         ;
-
         return http.build();
     }
 }

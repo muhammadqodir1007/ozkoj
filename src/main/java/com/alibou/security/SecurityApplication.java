@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Optional;
+
 import static com.alibou.security.user.Role.ADMIN;
 
 @SpringBootApplication
@@ -29,15 +31,17 @@ public class SecurityApplication {
     public CommandLineRunner commandLineRunner(
     ) {
         return args -> {
+            Optional<User> user = userRepository.findByEmail("xakimovoatbek@gmail.com");
 
-
-            User otabek = User.builder().role(ADMIN)
-                    .email("xakimovoatbek@gmail.com")
-                    .firstname("ernf")
-                    .lastname("wrkjfn")
-                    .password(passwordEncoder.encode("otabek"))
-                    .enabled(true).build();
-            userRepository.save(otabek);
+            if (user.isEmpty()) {
+                User otabek = User.builder().role(ADMIN)
+                        .email("xakimovoatbek@gmail.com")
+                        .firstname("ernf")
+                        .lastname("wrkjfn")
+                        .password(passwordEncoder.encode("otabek"))
+                        .enabled(true).build();
+                userRepository.save(otabek);
+            }
 
         };
     }
