@@ -48,7 +48,20 @@ public class WebinarController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResult<String>> createWebinar(@RequestParam("title_uz") String title_uz, @RequestParam("title_en") String title_en, @RequestParam("title_ru") String title_ru, @RequestParam("description_uz") String description_uz, @RequestParam("description_en") String description_en, @RequestParam("field") String field, @RequestParam("description_ru") String description_ru, @RequestParam("file") MultipartFile file, @RequestParam("city") String city, @RequestParam("online") Boolean online, @RequestParam("speakers") String speakers, @RequestParam("time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime time) throws IOException {
+    public ResponseEntity<ApiResult<String>> createWebinar(
+            @RequestParam("title_uz") String title_uz,
+            @RequestParam("title_en") String title_en,
+            @RequestParam("title_ru") String title_ru,
+            @RequestParam("description_uz") String description_uz,
+            @RequestParam("description_en") String description_en,
+            @RequestParam("field") String field,
+            @RequestParam("description_ru") String description_ru,
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("city") String city,
+            @RequestParam("online") Boolean online,
+            @RequestParam("speakers") String speakers,
+            @RequestParam("time") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime time
+    ) throws IOException {
 
         List<Integer> list = parseSpeakerIds(speakers);
 
@@ -59,14 +72,26 @@ public class WebinarController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<WebinarDtoResponse> updateWebinar(@PathVariable Integer id, @RequestParam(value = "title_uz", required = false) String title_uz, @RequestParam(value = "title_en", required = false) String title_en, @RequestParam(value = "title_ru", required = false) String title_ru, @RequestParam(value = "field", required = false) String field, @RequestParam(value = "description_uz", required = false) String description_uz, @RequestParam(value = "description_en", required = false) String description_en, @RequestParam(value = "description_ru", required = false) String description_ru, @RequestParam(value = "file", required = false) MultipartFile file, @RequestParam(value = "city", required = false) String city, @RequestParam(value = "online", required = false) Boolean online, @RequestParam(value = "speakers", required = false) String speakers, @RequestParam(value = "time", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime time
-
+    public ResponseEntity<WebinarDtoResponse> updateWebinar(
+            @PathVariable Integer id,
+            @RequestParam(value = "title_uz", required = false) String title_uz,
+            @RequestParam(value = "title_en", required = false) String title_en,
+            @RequestParam(value = "title_ru", required = false) String title_ru,
+            @RequestParam(value = "field", required = false) String field,
+            @RequestParam(value = "description_uz", required = false) String description_uz,
+            @RequestParam(value = "description_en", required = false) String description_en,
+            @RequestParam(value = "description_ru", required = false) String description_ru,
+            @RequestParam(value = "file", required = false) MultipartFile file,
+            @RequestParam(value = "city", required = false) String city,
+            @RequestParam(value = "online", required = false) Boolean online,
+            @RequestParam(value = "speakers", required = false) String speakers,
+            @RequestParam(value = "time", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime time
     ) throws IOException {
-
-        List<Integer> list = parseSpeakerIds(speakers);
-
+        List<Integer> list = null;
+        if (speakers != null) {
+            list = parseSpeakerIds(speakers);
+        }
         WebinarDto webinarDto = WebinarDto.builder().file(file).field(field).online(online).description_en(description_en).description_ru(description_ru).description_uz(description_uz).title_uz(title_uz).title_en(title_en).title_ru(title_ru).time(time).city(city).speakers(list).build();
-
         WebinarDtoResponse updatedWebinar = webinarService.update(id, webinarDto);
         return ResponseEntity.ok(updatedWebinar);
     }

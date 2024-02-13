@@ -53,7 +53,6 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public News update(Integer newsId, NewsDto entity) throws IOException {
         News news = newsRepository.findById(newsId).orElseThrow(NotFoundException::new);
-
         if (entity.getFile() != null) {
             news.setLink(imageService.saveImage(entity.getFile()));
         }
