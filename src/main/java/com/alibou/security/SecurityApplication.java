@@ -31,11 +31,11 @@ public class SecurityApplication {
     public CommandLineRunner commandLineRunner(
     ) {
         return args -> {
-            Optional<User> user = userRepository.findByEmail("xakimovoatbek@gmail.com");
+            Optional<User> user = userRepository.findByEmail("DoctorS.Med.Fazo@gmail.com");
 
             if (user.isEmpty()) {
                 User otabek = User.builder().role(ADMIN)
-                        .email("DoctorS.Med.Fazo@gmail.co")
+                        .email("DoctorS.Med.Fazo@gmail.com")
                         .firstname("ADMIN")
                         .lastname("MEDICINE")
                         .password(passwordEncoder.encode("doctoradmin"))
