@@ -27,8 +27,6 @@ public class SecurityConfiguration {
 
     private static final String[] WHITE_LIST_URL =
             {"/api/auth/**",
-                    "/api/article/**",
-                    "/api/materials/**",
                     "/api/images/**",
                     "/api/home/**",
                     "/uploadFile/**",
@@ -59,6 +57,7 @@ public class SecurityConfiguration {
                                 .requestMatchers("/api/v1/management/**").hasAnyRole(ADMIN.name(), MANAGER.name())
                                 .requestMatchers(GET, "/api/speakers/**", "/api/news/**", "/api/resources/**"
                                         , "/api/partners/**", "/api/webinars/**", "/api/articles/**", "/api/materials/**").permitAll()
+                                .requestMatchers("/api/users/**").hasRole(ADMIN.name())
                                 .anyRequest()
                                 .authenticated()
                 )

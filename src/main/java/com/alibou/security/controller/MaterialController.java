@@ -36,8 +36,9 @@ public class MaterialController {
         return new ResponseEntity<>(createdMaterial, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Material> updateMaterial(@PathVariable Integer id, @RequestBody Material material) throws IOException {
+    @PatchMapping("/{id}")
+    public ResponseEntity<Material> updateMaterial(@PathVariable Integer id,
+                                                   @RequestBody Material material) throws IOException {
         Material updatedMaterial = materialService.update(id, material);
         return new ResponseEntity<>(updatedMaterial, HttpStatus.OK);
     }
@@ -47,4 +48,7 @@ public class MaterialController {
         materialService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+
+
 }

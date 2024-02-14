@@ -35,10 +35,10 @@ public class SecurityApplication {
 
             if (user.isEmpty()) {
                 User otabek = User.builder().role(ADMIN)
-                        .email("xakimovoatbek@gmail.com")
-                        .firstname("ernf")
-                        .lastname("wrkjfn")
-                        .password(passwordEncoder.encode("otabek"))
+                        .email("DoctorS.Med.Fazo@gmail.co")
+                        .firstname("ADMIN")
+                        .lastname("MEDICINE")
+                        .password(passwordEncoder.encode("doctoradmin"))
                         .enabled(true).build();
                 userRepository.save(otabek);
             }
