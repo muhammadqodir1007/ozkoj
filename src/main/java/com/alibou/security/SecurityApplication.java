@@ -34,13 +34,13 @@ public class SecurityApplication {
             Optional<User> user = userRepository.findByEmail("DoctorS.Med.Fazo@gmail.com");
 
             if (user.isEmpty()) {
-                User otabek = User.builder().role(ADMIN)
+                User admin = User.builder().role(ADMIN)
                         .email("DoctorS.Med.Fazo@gmail.com")
                         .firstname("ADMIN")
                         .lastname("MEDICINE")
                         .password(passwordEncoder.encode("doctoradmin"))
                         .enabled(true).build();
-                userRepository.save(otabek);
+                userRepository.save(admin);
             }
 
         };

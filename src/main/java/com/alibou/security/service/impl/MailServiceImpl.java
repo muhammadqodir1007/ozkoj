@@ -69,7 +69,7 @@ public class MailServiceImpl implements MailService {
             helper.setTo(to);
             helper.setSubject(MessageByLang.getMessage("SUBJECT_FOR_FORGOT_PASSWORD"));
             helper.setFrom(sender);
-            String resetLink = confirmLinkIPAndPort + conformEmailForResetForgottenPasswordURL + to + "/" + verificationCode;
+            String resetLink = conformEmailForResetForgottenPasswordURL + verificationCode;
             String forgotPassword = textForForgotPassword(resetLink);
             mimeMessage.setContent(forgotPassword, "text/html; charset=utf-8");
             Thread thread = new Thread(() -> mailSender.send(mimeMessage));
