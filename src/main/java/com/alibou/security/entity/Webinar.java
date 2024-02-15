@@ -21,11 +21,17 @@ public class Webinar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(length = 1000)
     private String title_uz;
+    @Column(length = 1000)
     private String title_en;
+    @Column(length = 1000)
     private String title_ru;
+    @Column(length = 1000)
     private String description_uz;
+    @Column(length = 1000)
     private String description_en;
+    @Column(length = 1000)
     private String description_ru;
     private String link;
     private String field;

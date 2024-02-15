@@ -1,9 +1,6 @@
 package com.alibou.security.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,11 +17,17 @@ public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(length = 500)
     String title_uz;
+    @Column(length = 500)
     String title_ru;
+    @Column(length = 500)
     String title_en;
+    @Column(length = 1000)
     String description_uz;
+    @Column(length = 1000)
     String description_en;
+    @Column(length = 1000)
     String description_ru;
     String link;
     LocalDateTime createdDate;

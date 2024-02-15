@@ -3,6 +3,7 @@ package com.alibou.security.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,7 +16,6 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.cors.CorsConfiguration;
 
 import static com.alibou.security.user.Role.ADMIN;
-import static com.alibou.security.user.Role.MANAGER;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -54,12 +54,23 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
-                                .requestMatchers("/api/v1/management/**").hasAnyRole(ADMIN.name(), MANAGER.name())
                                 .requestMatchers(GET, "/api/speakers/**", "/api/news/**", "/api/resources/**"
                                         , "/api/partners/**", "/api/webinars/**", "/api/articles/**", "/api/materials/**").permitAll()
-                                .requestMatchers("/api/users/**").hasRole(ADMIN.name())
-                                .anyRequest()
-                                .authenticated()
+                                .requestMatchers(HttpMethod.POST,
+                                        "/api/users/**", "/api/speakers/**", "/api/news/**", "/api/resources/**"
+                                        , "/api/partners/**", "/api/webinars/**", "/api/articles/**", "/api/materials/**"
+                                ).hasRole(ADMIN.name())
+                                .requestMatchers(HttpMethod.PATCH,
+                                        "/api/users/**", "/api/speakers/**", "/api/news/**", "/api/resources/**"
+                                        , "/api/partners/**", "/api/webinars/**", "/api/articles/**", "/api/materials/**"
+                                ).hasRole(ADMIN.name())
+                                .requestMatchers(HttpMethod.DELETE,
+                                        "/api/users/**", "/api/speakers/**", "/api/news/**", "/api/resources/**"
+                                        , "/api/partners/**", "/api/webinars/**", "/api/articles/**", "/api/materials/**"
+                                ).hasRole(ADMIN.name())
+                                .requestMatchers(GET, "/api/users/**").hasRole(ADMIN.name())
+                                .anyRequest().authenticated()
+
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)

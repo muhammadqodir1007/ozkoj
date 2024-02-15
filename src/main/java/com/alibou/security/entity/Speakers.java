@@ -1,9 +1,6 @@
 package com.alibou.security.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,8 +17,11 @@ public class Speakers {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String fullName;
+    @Column(length = 1000)
     private String description_uz;
+    @Column(length = 1000)
     private String description_ru;
+    @Column(length = 1000)
     private String description_en;
     private String link;
 
