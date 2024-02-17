@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 
@@ -26,9 +27,16 @@ public class AuthenticationController {
     }
 
     @GetMapping("/verify/{code}")
-    public ResponseEntity<ApiResult<String>> verify(@PathVariable String code) {
+    public RedirectView verify(@PathVariable String code) {
         ApiResult<String> result = service.confirmEmail(code);
-        return ResponseEntity.ok(result);
+        System.out.println(result.getMessage());
+        if (result.isSuccess()) {
+            return new RedirectView("https://doctor-study.uz/login");
+        } else {
+            return new RedirectView("https://doctor-study.uz");
+        }
+
+
     }
 
     @PostMapping("/authenticate")
@@ -46,7 +54,7 @@ public class AuthenticationController {
         return service.forgotPassword(email);
     }
 
-    @PostMapping( "/reset-forgotten-password")
+    @PostMapping("/reset-forgotten-password")
     public ApiResult<RegisterResponse> resetForgottenPassword(@RequestBody ResetForgottenPasswordDTO resetForgottenPasswordDTO) {
         return service.resetForgottenPassword(resetForgottenPasswordDTO);
     }

@@ -31,6 +31,19 @@ public class GlobalExceptionHandler {
     }
 
 
+
+
+    @ExceptionHandler(RestException.class)
+    public ResponseEntity<String> handleRestException(RestException e) {
+        // Customize the response based on the specific exception message
+        if ("Email already exists".equals(e.getMessage())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");
+        }
+
+        // Handle other RestException cases or provide a generic response
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
