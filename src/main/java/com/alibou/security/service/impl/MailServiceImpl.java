@@ -91,18 +91,18 @@ public class MailServiceImpl implements MailService {
 
                 "<style>\n" +
                 "    .hero {\n" +
-                "        background-color: #FAF8F1;\n" +
                 "        color:#000;\n" +
                 "        width:100%;\n" +
-                "        padding:15px 20px;\n" +
-                "        border-radius: 25px;\n" +
+                "        padding:15px 0px;\n" +
                 "\n" +
                 "    }\n" +
                 "    .btn-secondary {\n" +
-                "        background-color: #DD5353 !important;\n" +
+                "        background-color: #9b1738 !important;\n" +
+                "        color: #fff !important;\n" +
                 "        border:0;\n" +
                 "        outline: none;\n" +
-                "        border-radius: 25px;\n" +
+                "        width: 100%;\n" +
+                "        border-radius: 10px;\n" +
                 "        font-size:18px;\n" +
                 "        font-weight: 400;\n" +
                 "        padding:10px 20px !important;\n" +
@@ -113,6 +113,10 @@ public class MailServiceImpl implements MailService {
                 "    .btn-secondary:hover, .btn-secondary:focus {\n" +
                 "        outline: none !important;\n" +
                 "        box-shadow: none !important;\n" +
+                "    }\n" +
+                "    .confirm-link {\n" +
+                "        color: #fff !important;\n" +
+                "        text-decoration: none !important;\n" +
                 "    }\n" +
                 "</style>\n" +
                 "    <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css\" integrity=\"sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO\" crossorigin=\"anonymous\">\n" +
@@ -129,7 +133,7 @@ public class MailServiceImpl implements MailService {
                 "" + MessageByLang.getMessage("PLEASE_CLICK_HERE_TO_VERIFY_YOUR_EMAIL") + " " +
 //                " <br> <br> <br> \n" +
                 "<div class=\"d-grid gap-2 d-sm-flex justify-content-sm-center\">" +
-                "                    <button type=\"button\" class=\"btn btn-secondary btn-lg px-4 gap-3\"><a href=\"" + confirmLink + "\">Confirm</a></button>\n" +
+                "                    <a class=\"confirm-link btn btn-secondary btn-lg px-4 gap-3\" href=\"" + confirmLink + "\">Confirm</a>\n" +
                 "                </div> <br>\n" +
 
                 "" + MessageByLang.getMessage("THANK_YOU_FOR_DOING_THAT") + "<br><br>\n" +

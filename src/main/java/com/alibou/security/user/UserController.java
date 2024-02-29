@@ -1,6 +1,5 @@
 package com.alibou.security.user;
 
-import com.alibou.security.payload.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
+
     private final UserService service;
+    private final UserRepository userRepository;
 
     @PatchMapping
     public ResponseEntity<?> changePassword(
@@ -26,8 +27,9 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDto>> findAll() {
-        List<UserDto> all = service.findAll();
+    public ResponseEntity<List<User>> findAll() {
+//        List<UserDto> all = service.findAll();
+        List<User> all = userRepository.findAll();
         return ResponseEntity.ok(all);
     }
 
