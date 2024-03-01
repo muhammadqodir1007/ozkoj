@@ -1,7 +1,4 @@
-package com.alibou.security.service;
-
-import com.alibou.security.entity.UserTest;
-import com.alibou.security.payload.UserTestDto;
+package com.alibou.security.quiz.material;
 
 import java.util.List;
 

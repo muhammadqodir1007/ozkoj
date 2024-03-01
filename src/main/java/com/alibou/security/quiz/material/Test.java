@@ -1,5 +1,6 @@
-package com.alibou.security.entity;
+package com.alibou.security.quiz.material;
 
+import com.alibou.security.entity.Material;
 import com.alibou.security.user.User;
 import jakarta.persistence.*;
 import lombok.*;

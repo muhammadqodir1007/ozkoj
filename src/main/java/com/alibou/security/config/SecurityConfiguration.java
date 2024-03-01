@@ -30,6 +30,8 @@ public class SecurityConfiguration {
                     "/api/images/**",
                     "/api/users/**",
                     "/api/tests/**",
+                    "/v3/api-docs/**",
+                    "/swagger-ui/**",
                     "/api/user-tests/**",
                     "/api/home/**",
                     "/uploadFile/**",

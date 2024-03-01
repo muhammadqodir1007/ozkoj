@@ -1,16 +1,14 @@
-package com.alibou.security.payload;
+package com.alibou.security.quiz.article;
 
 import lombok.Data;
 
 import java.util.List;
-
 @Data
-public class TestDto {
+public class QuizDto {
+
 
     private String question;
     private List<String> options;
     private String correct;
-    private Integer material;
-
-
+    private Integer article;
 }

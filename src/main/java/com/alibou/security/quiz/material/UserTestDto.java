@@ -1,4 +1,4 @@
-package com.alibou.security.payload;
+package com.alibou.security.quiz.material;
 
 import lombok.Getter;
 import lombok.Setter;

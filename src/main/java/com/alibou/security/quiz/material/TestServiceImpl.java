@@ -1,14 +1,8 @@
-package com.alibou.security.service.impl;
+package com.alibou.security.quiz.material;
 
 import com.alibou.security.entity.Material;
-import com.alibou.security.entity.Test;
 import com.alibou.security.exceptions.NotFoundException;
-import com.alibou.security.payload.TestDto;
 import com.alibou.security.repository.MaterialRepository;
-import com.alibou.security.repository.TestRepository;
-import com.alibou.security.service.TestService;
-import com.alibou.security.user.User;
-import com.alibou.security.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
-package com.alibou.security.repository;
+package com.alibou.security.quiz.material;
 
-import com.alibou.security.entity.UserTest;
+import com.alibou.security.quiz.material.UserTest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,8 +1,5 @@
-package com.alibou.security.controller;
+package com.alibou.security.quiz.material;
 
-import com.alibou.security.entity.UserTest;
-import com.alibou.security.payload.UserTestDto;
-import com.alibou.security.service.UserTestService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
