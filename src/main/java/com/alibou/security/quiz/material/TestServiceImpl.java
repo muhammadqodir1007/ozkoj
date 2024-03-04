@@ -23,6 +23,11 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
+    public List<Test> findAllByMaterialId(int id) {
+        return testRepository.findAllByMaterialId(id);
+    }
+
+    @Override
     public Test findById(Long id) {
         return testRepository.findById(id).orElseThrow(NotFoundException::new);
     }

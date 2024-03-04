@@ -23,6 +23,11 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
+    public List<Quiz> findAllByArticleId(int id) {
+        return quizRepository.findAllByArticleId(id);
+    }
+
+    @Override
     public Quiz findById(Long id) {
         return quizRepository.findById(id).orElseThrow(NotFoundException::new);
     }
@@ -36,7 +41,7 @@ public class QuizServiceImpl implements QuizService {
                 .question(resource.getQuestion())
                 .options(resource.getOptions())
                 .correct(resource.getCorrect())
-                .material(article)
+                .article(article)
                 .build();
 
         return quizRepository.save(build);

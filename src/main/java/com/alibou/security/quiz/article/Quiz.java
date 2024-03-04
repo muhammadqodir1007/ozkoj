@@ -28,6 +28,6 @@ public class Quiz {
 
     private String correct;
     @ManyToOne
-    private Article material;
+    private Article article;
     private LocalDateTime createdDate;
 }

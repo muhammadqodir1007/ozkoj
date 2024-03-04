@@ -27,6 +27,13 @@ public class TestController {
         return new ResponseEntity<>(test, HttpStatus.OK);
     }
 
+
+    @GetMapping("/material/{id}")
+    public ResponseEntity<List<Test>> getByMaterialId(@PathVariable int id) {
+        List<Test> tests = testService.findAllByMaterialId(id);
+        return new ResponseEntity<>(tests, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Test> createTest(@RequestBody TestDto testDto) throws IOException {
         Test createdTest = testService.create(testDto);

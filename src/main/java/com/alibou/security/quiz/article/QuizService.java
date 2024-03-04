@@ -7,6 +7,7 @@ public interface QuizService {
 
 
     List<Quiz> findAll();
+    List<Quiz> findAllByArticleId(int id);
 
     Quiz findById(Long id);
 
