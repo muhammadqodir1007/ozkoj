@@ -6,6 +6,7 @@ public interface UserQuizService {
 
 
     List<UserQuiz> findAll();
+    List<UserQuiz> findAllByUserId(Long id);
 
     UserQuiz findById(Long id);
 

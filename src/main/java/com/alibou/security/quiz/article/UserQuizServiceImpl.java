@@ -22,6 +22,11 @@ public class UserQuizServiceImpl implements UserQuizService {
     }
 
     @Override
+    public List<UserQuiz> findAllByUserId(Long id) {
+        return userQuizRepository.findAllByUserId(id);
+    }
+
+    @Override
     public UserQuiz findById(Long id) {
         return userQuizRepository.findById(id).orElseThrow(NotFoundException::new);
     }

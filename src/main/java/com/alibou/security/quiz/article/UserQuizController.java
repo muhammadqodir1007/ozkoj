@@ -22,6 +22,12 @@ public class UserQuizController {
         return new ResponseEntity<>(userQuizzes, HttpStatus.OK);
     }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<UserQuiz>> getAllUserQuizzesByUserId(@PathVariable Long id) {
+        List<UserQuiz> userQuizzes = userQuizService.findAllByUserId(id);
+        return new ResponseEntity<>(userQuizzes, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<UserQuiz> getUserQuizById(@PathVariable Long id) {
         UserQuiz userQuiz = userQuizService.findById(id);

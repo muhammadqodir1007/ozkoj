@@ -22,7 +22,7 @@ public class Quiz {
     @Column(length = 1000)
     private String question;
     @ElementCollection
-    @CollectionTable(name = "test_options", joinColumns = @JoinColumn(name = "test_id"))
+    @CollectionTable(name = "quiz_options", joinColumns = @JoinColumn(name = "quiz_id"))
     @Column(name = "option")
     private List<String> options;
 

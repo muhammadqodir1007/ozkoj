@@ -21,6 +21,13 @@ public class UserTestServiceImpl implements UserTestService {
     }
 
     @Override
+    public List<UserTest> findAllByUserId(Long id) {
+     return    userTestRepository.findAllByUserId(id);
+
+
+    }
+
+    @Override
     public UserTest findById(Long id) {
         return userTestRepository.findById(id).orElseThrow(NotFoundException::new);
     }

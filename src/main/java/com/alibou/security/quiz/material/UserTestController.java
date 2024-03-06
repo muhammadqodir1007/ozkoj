@@ -20,6 +20,12 @@ public class UserTestController {
         return new ResponseEntity<>(userTests, HttpStatus.OK);
     }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<UserTest>> getAllUserTestsByUserId(@PathVariable Long id) {
+        List<UserTest> userTests = userTestService.findAllByUserId(id);
+        return new ResponseEntity<>(userTests, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<UserTest> getUserTestById(@PathVariable Long id) {
         UserTest userTest = userTestService.findById(id);
