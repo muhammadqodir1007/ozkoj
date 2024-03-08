@@ -34,8 +34,11 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public Test create(TestDto resource) throws IOException {
+
         Material material = materialRepository.findById(resource.getMaterial()).orElseThrow(NotFoundException::new);
 
+        material.setTestExist(true);
+        materialRepository.save(material);
         Test build = Test.builder()
                 .createdDate(LocalDateTime.now())
                 .question(resource.getQuestion())
@@ -43,6 +46,7 @@ public class TestServiceImpl implements TestService {
                 .correct(resource.getCorrect())
                 .material(material)
                 .build();
+
 
         return testRepository.save(build);
     }
@@ -69,6 +73,9 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public void delete(Long id) throws IOException {
+
         testRepository.deleteById(id);
+
+
     }
 }

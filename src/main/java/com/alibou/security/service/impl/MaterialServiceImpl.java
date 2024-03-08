@@ -1,6 +1,8 @@
 package com.alibou.security.service.impl;
 
 import com.alibou.security.entity.Material;
+import com.alibou.security.quiz.material.Test;
+import com.alibou.security.quiz.material.TestRepository;
 import com.alibou.security.repository.MaterialRepository;
 import com.alibou.security.service.MaterialService;
 import lombok.AllArgsConstructor;
@@ -15,11 +17,14 @@ import java.util.List;
 public class MaterialServiceImpl implements MaterialService {
 
     private final MaterialRepository materialRepository;
+    private final TestRepository testRepository;
 
     @Override
     public List<Material> findAll() {
-        return materialRepository.findAll();
+  return materialRepository.findAll();
+
     }
+
 
     @Override
     public Material findById(Integer materialId) {

@@ -35,7 +35,8 @@ public class QuizServiceImpl implements QuizService {
     @Override
     public Quiz create(QuizDto resource) throws IOException {
         Article article = articleRepository.findById(resource.getArticle()).orElseThrow(NotFoundException::new);
-
+        article.setQuizExist(true);
+        articleRepository.save(article);
         Quiz build = Quiz.builder()
                 .createdDate(LocalDateTime.now())
                 .question(resource.getQuestion())

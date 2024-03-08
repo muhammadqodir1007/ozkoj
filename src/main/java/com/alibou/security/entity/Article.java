@@ -18,19 +18,21 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(length = 500)
-    String title_uz;
+    private String title_uz;
     @Column(length = 500)
-    String title_ru;
+    private String title_ru;
     @Column(length = 500)
-    String title_en;
+    private String title_en;
     @Column(length = 1000)
-    String description_uz;
+    private String description_uz;
     @Column(length = 1000)
-    String description_en;
+    private String description_en;
     @Column(length = 1000)
-    String description_ru;
-    String link;
-    LocalDateTime createdDate;
+    private String description_ru;
+    @Column(nullable = true)
+    private boolean isQuizExist;
+    private String link;
+    private LocalDateTime createdDate;
 
 
 }

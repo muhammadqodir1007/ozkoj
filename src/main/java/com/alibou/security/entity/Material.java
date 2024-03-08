@@ -31,5 +31,7 @@ public class Material {
     @Column(length = 1000)
     private String description_ru;
     private String link;
+    @Column(columnDefinition = "boolean default false", nullable = false)
+    private boolean isTestExist;
     private LocalDateTime createdDate;
 }
