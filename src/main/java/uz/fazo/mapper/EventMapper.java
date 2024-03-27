@@ -12,4 +12,6 @@ public interface EventMapper {
 
     Event eventDtoEvent(EventDto eventDto);
 
+
+    Event updateEventDtoToEvent(Event event, EventDto eventDto);
 }

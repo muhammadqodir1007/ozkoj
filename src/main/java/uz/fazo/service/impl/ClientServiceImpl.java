@@ -38,6 +38,16 @@ public class ClientServiceImpl implements ClientService {
         return clientMapper.clientToClientDto(clientRepository.save(client));
     }
 
+
+    @Override
+    public ClientDto update(long id, ClientDto clientDto) {
+        Client existingClient = clientRepository.findById(id)
+                .orElseThrow(NotFoundException::new);
+        Client client = clientMapper.updateClientFromDto(clientDto, existingClient);
+        Client save = clientRepository.save(client);
+        return clientMapper.clientToClientDto(save);
+    }
+
     @Override
     public void delete(long id) {
         clientRepository.deleteById(id);

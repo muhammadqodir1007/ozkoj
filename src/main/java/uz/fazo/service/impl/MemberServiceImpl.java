@@ -30,6 +30,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public MemberDto update(long id, MemberDto memberDto) {
+        Member existingMember = memberRepository.findById(id)
+                .orElseThrow(NotFoundException::new);
+        Member updatedMember = memberMapper.updateMemberFromDto(memberDto, existingMember);
+        return memberMapper.memberToMemberDto(memberRepository.save(updatedMember));
+    }
+
+    @Override
     public MemberDto create(MemberDto memberDto) {
         Member member = memberMapper.memberDtoToMember(memberDto);
         Member save = memberRepository.save(member);

@@ -14,6 +14,8 @@ public interface ClientService {
 
     ClientDto create(ClientDto memberDto);
 
+    ClientDto update(long id, ClientDto clientDto);
+
     void delete(long id);
 
 }

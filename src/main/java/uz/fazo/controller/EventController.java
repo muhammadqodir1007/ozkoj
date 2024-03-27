@@ -36,6 +36,12 @@ public class EventController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdEvent);
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<EventDto> updateEvent(@PathVariable int id, @RequestBody EventDto eventDto) {
+        EventDto update = eventService.update(id, eventDto);
+        return ResponseEntity.ok(update);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEvent(@PathVariable long id) {
         eventService.delete(id);

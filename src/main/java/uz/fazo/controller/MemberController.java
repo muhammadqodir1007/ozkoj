@@ -36,6 +36,12 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdMember);
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<MemberDto> updateMember(@PathVariable int id, @RequestBody MemberDto memberDto) {
+        MemberDto update = memberService.update(id, memberDto);
+        return ResponseEntity.ok(update);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMember(@PathVariable long id) {
         memberService.delete(id);

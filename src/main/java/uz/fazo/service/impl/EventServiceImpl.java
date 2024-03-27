@@ -37,6 +37,13 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public EventDto update(long id, EventDto eventDto) {
+        Event event = eventRepository.findById(id).orElseThrow(NullPointerException::new);
+        Event event1 = eventMapper.updateEventDtoToEvent(event, eventDto);
+        return eventMapper.eventToEventDto(eventRepository.save(event1));
+    }
+
+    @Override
     public void delete(long id) {
         eventRepository.deleteById(id);
     }

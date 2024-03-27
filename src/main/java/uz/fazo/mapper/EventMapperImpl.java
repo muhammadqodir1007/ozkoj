@@ -38,4 +38,32 @@ public class EventMapperImpl implements EventMapper {
                 .type(eventDto.getType())
                 .build();
     }
+
+    @Override
+    public Event updateEventDtoToEvent(Event event, EventDto eventDto) {
+        if (event == null || eventDto == null) {
+            return null;
+        }
+        if (eventDto.getAttendeeCount() != 0) {
+            event.setAttendeeCount(eventDto.getAttendeeCount());
+        }
+        if (eventDto.getComment() != null) {
+            event.setAttendeeCount(eventDto.getAttendeeCount());
+        }
+        if (eventDto.getStatus() != null) {
+            event.setStatus(eventDto.getStatus());
+        }
+        if (eventDto.getName() != null) {
+            event.setName(eventDto.getName());
+        }
+        if (eventDto.getPhoto() != null) {
+            event.setPhoto(eventDto.getPhoto());
+        }
+        if (eventDto.getType() != null) {
+            event.setType(event.getType());
+        }
+        return event;
+    }
+
+
 }

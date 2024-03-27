@@ -25,10 +25,15 @@ public class UserController {
     }
 
     @PostMapping
-
     public ResponseEntity<UserDto> create(@RequestBody UserDto userDto) {
         UserDto userDto1 = service.create(userDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(userDto1);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable int id) {
+        service.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("deleted");
     }
 
 

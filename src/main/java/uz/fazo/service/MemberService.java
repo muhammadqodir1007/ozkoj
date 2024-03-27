@@ -11,8 +11,11 @@ public interface MemberService {
 
     MemberDto getById(long id);
 
+    MemberDto update(long id, MemberDto memberDto);
+
     MemberDto create(MemberDto memberDto);
 
     void delete(long id);
+
 
 }

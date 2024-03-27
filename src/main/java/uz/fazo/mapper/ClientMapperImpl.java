@@ -41,4 +41,39 @@ public class ClientMapperImpl implements ClientMapper {
                 .build();
 
     }
+
+
+    @Override
+    public Client updateClientFromDto(ClientDto clientDto, Client client) {
+        if (clientDto == null || client == null) {
+            return null;
+        }
+
+        if (clientDto.getFullName() != null) {
+            client.setFullName(clientDto.getFullName());
+        }
+        if (clientDto.getAddress() != null) {
+            client.setAddress(clientDto.getAddress());
+        }
+        if (clientDto.getBirthDate() != null) {
+            client.setBirthDate(clientDto.getBirthDate());
+        }
+        if (clientDto.getState() != null) {
+            client.setState(clientDto.getState());
+        }
+        if (clientDto.getPassportSeries() != null) {
+            client.setPassportSeries(clientDto.getPassportSeries());
+        }
+        if (clientDto.getPassportNumber() != null) {
+            client.setPassportNumber(clientDto.getPassportNumber());
+        }
+        if (clientDto.getPhoneNumber() != null) {
+            client.setPhoneNumber(clientDto.getPhoneNumber());
+        }
+        client.setGroupNumber(clientDto.getGroupNumber());
+
+
+        return client;
+    }
+
 }

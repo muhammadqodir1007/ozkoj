@@ -45,4 +45,37 @@ public class MemberMapperImpl implements MemberMapper {
                 .passportSeries(memberDto.getPassportSeries())
                 .build();
     }
+
+    @Override
+    public Member updateMemberFromDto(MemberDto memberDto, Member member) {
+        if (memberDto == null || member == null) {
+            return null;
+        }
+
+        if (memberDto.getFullName() != null) {
+            member.setFullName(memberDto.getFullName());
+        }
+        if (memberDto.getAddress() != null) {
+            member.setAddress(memberDto.getAddress());
+        }
+        if (memberDto.getBirthDate() != null) {
+            member.setBirthDate(memberDto.getBirthDate());
+        }
+        if (memberDto.getState() != null) {
+            member.setState(memberDto.getState());
+        }
+        if (memberDto.getPassportSeries() != null) {
+            member.setPassportSeries(memberDto.getPassportSeries());
+        }
+        if (memberDto.getPassportNumber() != null) {
+            member.setPassportNumber(memberDto.getPassportNumber());
+        }
+        if (memberDto.getPhoneNumber() != null) {
+            member.setPhoneNumber(memberDto.getPhoneNumber());
+        }
+        member.setGroupNumber(memberDto.getGroupNumber());
+
+        return member;
+    }
+
 }

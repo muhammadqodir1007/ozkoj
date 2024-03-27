@@ -1,7 +1,6 @@
 package uz.fazo.user;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.fazo.mapper.UserMapper;
@@ -26,14 +25,15 @@ public class UserService {
 
     public UserDto create(UserDto userDto) {
         User user = userMapper.userDtoToUser(userDto);
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         User save = repository.save(user);
         return userMapper.userToUserDto(save);
     }
 
-
     public void delete(int id) {
         repository.deleteById(id);
     }
+
 
 
 }
