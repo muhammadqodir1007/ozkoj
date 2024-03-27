@@ -2,13 +2,16 @@ package uz.fazo.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import uz.fazo.entity.Client;
 import uz.fazo.exceptions.NotFoundException;
 import uz.fazo.mapper.ClientMapper;
 import uz.fazo.payload.ClientDto;
 import uz.fazo.repository.ClientRepository;
 import uz.fazo.service.ClientService;
+import uz.fazo.service.ExcelService;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,8 +19,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ClientServiceImpl implements ClientService {
 
-    private ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
     private final ClientMapper clientMapper;
+
+    private final ExcelService excelService;
+
 
     @Override
     public List<ClientDto> getAll() {
@@ -25,6 +31,18 @@ public class ClientServiceImpl implements ClientService {
                 .map(clientMapper::clientToClientDto)
                 .collect(Collectors.toList());
 
+    }
+
+    @Override
+    public List<ClientDto> createFromFile(MultipartFile file) throws IOException {
+        return excelService.createClients(file);
+    }
+
+    @Override
+    public byte[] exportMembersToExcel() throws IOException {
+        List<Client> all = clientRepository.findAll();
+        List<ClientDto> collect = all.stream().map(clientMapper::clientToClientDto).collect(Collectors.toList());
+        return excelService.exportClientsToExcel(collect);
     }
 
     @Override

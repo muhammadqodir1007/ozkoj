@@ -32,6 +32,8 @@ public class SecurityConfiguration {
                     "/api/images/**",
                     "/api/users/**",
                     "/api/members/**",
+                    "/api/clients/**",
+
                     "/api/events/**",
                     "/api/problems/**",
                     "/api/tests/**",

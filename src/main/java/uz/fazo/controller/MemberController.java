@@ -1,11 +1,17 @@
 package uz.fazo.controller;
 
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import uz.fazo.payload.MemberDto;
 import uz.fazo.service.MemberService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -28,6 +34,33 @@ public class MemberController {
     public ResponseEntity<MemberDto> getMemberById(@PathVariable long id) {
         MemberDto member = memberService.getById(id);
         return ResponseEntity.ok(member);
+    }
+
+    @GetMapping("/export")
+    public ResponseEntity<Resource> exportMembersToExcel() {
+        try {
+            byte[] excelBytes = memberService.exportMembersToExcel();
+            ByteArrayResource resource = new ByteArrayResource(excelBytes);
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=members.xlsx")
+                    .body(resource);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<List<MemberDto>> uploadClientsFromFile(@RequestParam("file") MultipartFile file) {
+        try {
+            List<MemberDto> clients = memberService.createFromFile(file);
+            return ResponseEntity.ok(clients);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PostMapping

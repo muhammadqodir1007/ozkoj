@@ -1,13 +1,19 @@
 package uz.fazo.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import uz.fazo.payload.MemberDto;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface MemberService {
 
 
     List<MemberDto> getAll();
+
+    List<MemberDto> createFromFile(MultipartFile file) throws IOException;
+
+    byte[] exportMembersToExcel() throws IOException;
 
     MemberDto getById(long id);
 

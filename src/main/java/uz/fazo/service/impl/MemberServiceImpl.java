@@ -2,13 +2,16 @@ package uz.fazo.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import uz.fazo.entity.Member;
 import uz.fazo.exceptions.NotFoundException;
 import uz.fazo.mapper.MemberMapper;
 import uz.fazo.payload.MemberDto;
 import uz.fazo.repository.MemberRepository;
+import uz.fazo.service.ExcelService;
 import uz.fazo.service.MemberService;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,12 +19,25 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
+    private final ExcelService excelService;
     private final MemberMapper memberMapper;
 
     @Override
     public List<MemberDto> getAll() {
         return memberRepository.findAll().stream().map(memberMapper::memberToMemberDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<MemberDto> createFromFile(MultipartFile file) throws IOException {
+        return excelService.createMembers(file);
+    }
+
+    @Override
+    public byte[] exportMembersToExcel() throws IOException {
+        List<Member> all = memberRepository.findAll();
+        List<MemberDto> collect = all.stream().map(memberMapper::memberToMemberDto).collect(Collectors.toList());
+        return excelService.exportMembersToExcel(collect);
     }
 
     @Override
