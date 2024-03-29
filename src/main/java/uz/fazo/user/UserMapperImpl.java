@@ -1,8 +1,7 @@
-package uz.fazo.mapper;
+package uz.fazo.user;
 
 import org.springframework.stereotype.Component;
 import uz.fazo.payload.UserDto;
-import uz.fazo.user.User;
 
 @Component
 public class UserMapperImpl implements UserMapper {
@@ -12,7 +11,7 @@ public class UserMapperImpl implements UserMapper {
         if (user == null) {
             return null;
         }
-        
+
         UserDto userDto = new UserDto();
         userDto.setUsername(user.getUsername());
         userDto.setId(user.getId());
@@ -26,10 +25,10 @@ public class UserMapperImpl implements UserMapper {
         if (userDto == null) {
             return null;
         }
-        
         User user = new User();
         user.setUsername(userDto.getUsername());
         user.setId(userDto.getId());
+        user.setRole(Role.DISTRICT);
         user.setPassword(userDto.getPassword());
         user.setRegion(userDto.getRegion());
         return user;

@@ -1,6 +1,5 @@
 package uz.fazo.controller;
 
-import lombok.AllArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;

@@ -29,11 +29,10 @@ public class SecurityConfiguration {
             {"/api/auth/**",
                     "v3/api-docs/**",
                     "/api/excel/**",
-                    "/api/images/**",
-                    "/api/users/**",
+                    "/api/images/**"
+                    ,"/api/users/**",
                     "/api/members/**",
                     "/api/clients/**",
-
                     "/api/events/**",
                     "/api/problems/**",
                     "/api/tests/**",
@@ -66,19 +65,19 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
-                                .requestMatchers(GET, "/api/speakers/**", "/api/news/**", "/api/resources/**"
-                                        , "/api/partners/**", "/api/webinars/**", "/api/articles/**", "/api/materials/**").permitAll()
+                                .requestMatchers(GET, "/api/problems/**", "/api/members/**", "/api/materials/**"
+                                        , "/api/events/**", "/api/clients/**", "/api/articles/**", "/api/materials/**").permitAll()
                                 .requestMatchers(HttpMethod.POST,
-                                        "/api/users/**", "/api/speakers/**", "/api/news/**", "/api/resources/**"
-                                        , "/api/partners/**", "/api/webinars/**", "/api/articles/**", "/api/materials/**"
+                                        "/api/problems/**", "/api/members/**", "/api/materials/**"
+                                        , "/api/events/**", "/api/clients/**", "/api/articles/**", "/api/materials/**"
                                 ).hasRole(ADMIN.name())
                                 .requestMatchers(HttpMethod.PATCH,
-                                        "/api/users/**", "/api/speakers/**", "/api/news/**", "/api/resources/**"
-                                        , "/api/partners/**", "/api/webinars/**", "/api/articles/**", "/api/materials/**"
+                                        "/api/problems/**", "/api/members/**", "/api/materials/**"
+                                        , "/api/events/**", "/api/clients/**", "/api/articles/**", "/api/materials/**"
                                 ).hasRole(ADMIN.name())
                                 .requestMatchers(HttpMethod.DELETE,
-                                        "/api/users/**", "/api/speakers/**", "/api/news/**", "/api/resources/**"
-                                        , "/api/partners/**", "/api/webinars/**", "/api/articles/**", "/api/materials/**"
+                                        "/api/problems/**", "/api/members/**", "/api/materials/**"
+                                        , "/api/events/**", "/api/clients/**", "/api/articles/**", "/api/materials/**"
                                 ).hasRole(ADMIN.name())
                                 .requestMatchers(GET, "/api/users/**").hasRole(ADMIN.name())
                                 .anyRequest().authenticated()

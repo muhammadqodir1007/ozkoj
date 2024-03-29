@@ -1,6 +1,5 @@
 package uz.fazo.payload;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import lombok.Getter;
 import lombok.Setter;
 

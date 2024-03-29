@@ -25,7 +25,7 @@ public enum Role {
                   Permission.MANAGER_CREATE
           )
   ),
-  MANAGER(
+  DISTRICT(
           Set.of(
                   Permission.MANAGER_READ,
                   Permission.MANAGER_UPDATE,

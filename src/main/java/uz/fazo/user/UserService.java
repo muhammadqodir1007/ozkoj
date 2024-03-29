@@ -3,7 +3,6 @@ package uz.fazo.user;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import uz.fazo.mapper.UserMapper;
 import uz.fazo.payload.UserDto;
 
 import java.util.List;

@@ -31,13 +31,13 @@ public class SecurityApplication {
     public CommandLineRunner commandLineRunner(
     ) {
         return args -> {
-            Optional<User> user = userRepository.findByUsername("DoctorS.Med.Fazo@gmail.com");
+            Optional<User> user = userRepository.findByUsername("mainadmin");
 
             if (user.isEmpty()) {
                 User admin = User.builder().role(ADMIN)
-                        .username("DoctorS.Med.Fazo@gmail.com")
+                        .username("mainadmin")
                         .region("main")
-                        .password(passwordEncoder.encode("doctoradmin"))
+                        .password(passwordEncoder.encode("ozkojadmin"))
                         .enabled(true).build();
                 userRepository.save(admin);
             }

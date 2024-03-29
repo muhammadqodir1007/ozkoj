@@ -1,12 +1,10 @@
-package uz.fazo.mapper;
+package uz.fazo.user;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
-import org.springframework.stereotype.Component;
 import uz.fazo.payload.UserDto;
-import uz.fazo.user.User;
 
 @Mapper
 public interface UserMapper {
