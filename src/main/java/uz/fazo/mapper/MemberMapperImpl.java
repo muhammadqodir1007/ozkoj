@@ -3,9 +3,16 @@ package uz.fazo.mapper;
 import org.springframework.stereotype.Component;
 import uz.fazo.entity.Member;
 import uz.fazo.payload.MemberDto;
+import uz.fazo.user.User;
+import uz.fazo.user.UserRepository;
 
 @Component
 public class MemberMapperImpl implements MemberMapper {
+    private final UserRepository userRepository;
+
+    public MemberMapperImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
 
     @Override
@@ -14,16 +21,7 @@ public class MemberMapperImpl implements MemberMapper {
         if (member == null) {
             return null;
         }
-        return MemberDto.builder().id(member.getId())
-                .address(member.getAddress())
-                .fullName(member.getFullName())
-                .birthDate(member.getBirthDate())
-                .groupNumber(member.getGroupNumber())
-                .state(member.getState())
-                .passportNumber(member.getPassportNumber())
-                .phoneNumber(member.getPhoneNumber())
-                .passportSeries(member.getPassportSeries())
-                .build();
+        return MemberDto.builder().id(member.getId()).address(member.getAddress()).fullName(member.getFullName()).birthDate(member.getBirthDate()).userId(member.getUser().getId()).groupNumber(member.getGroupNumber()).state(member.getState()).passportNumber(member.getPassportNumber()).phoneNumber(member.getPhoneNumber()).passportSeries(member.getPassportSeries()).build();
 
 
     }
@@ -33,17 +31,10 @@ public class MemberMapperImpl implements MemberMapper {
         if (memberDto == null) {
             return null;
         }
+        User user = userRepository.findById(memberDto.getUserId()).orElseThrow(NullPointerException::new);
 
-        return Member.builder().id(memberDto.getId())
-                .address(memberDto.getAddress())
-                .fullName(memberDto.getFullName())
-                .birthDate(memberDto.getBirthDate())
-                .groupNumber(memberDto.getGroupNumber())
-                .state(memberDto.getState())
-                .passportNumber(memberDto.getPassportNumber())
-                .phoneNumber(memberDto.getPhoneNumber())
-                .passportSeries(memberDto.getPassportSeries())
-                .build();
+
+        return Member.builder().id(memberDto.getId()).user(user).address(memberDto.getAddress()).fullName(memberDto.getFullName()).birthDate(memberDto.getBirthDate()).groupNumber(memberDto.getGroupNumber()).state(memberDto.getState()).passportNumber(memberDto.getPassportNumber()).phoneNumber(memberDto.getPhoneNumber()).passportSeries(memberDto.getPassportSeries()).build();
     }
 
     @Override

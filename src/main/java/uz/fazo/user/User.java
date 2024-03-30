@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import uz.fazo.token.Token;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -23,10 +24,8 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue
     private Integer id;
-    private String region;
+    @Column(unique = true)
     private String username;
-    @JsonIgnore
-    private String verificationCode;
     @JsonIgnore
     private String password;
 

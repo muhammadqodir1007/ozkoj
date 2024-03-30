@@ -28,11 +28,18 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     @Override
+    public List<MaterialDto> getAllByUserId(int userId) {
+        return materialRepository.findAllByUserId(userId).stream()
+                .map(materialMapper::materialToMaterialDto).collect(Collectors.toList());
+    }
+
+    @Override
     public MaterialDto getById(long id) {
         Material material = materialRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         return materialMapper.materialToMaterialDto(material);
     }
+
 
     @Override
     public MaterialDto create(MaterialDto materialDto) {

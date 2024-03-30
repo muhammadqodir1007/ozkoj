@@ -25,6 +25,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public List<EventDto> getAllByUserId(int id) {
+        return eventRepository.findAllByUserId(id).stream().map(eventMapper::eventToEventDto).collect(Collectors.toList());
+    }
+
+    @Override
     public EventDto getById(long id) {
         return eventMapper.eventToEventDto(eventRepository.findById(id).orElseThrow(NotFoundException::new));
     }

@@ -1,10 +1,8 @@
 package uz.fazo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+import uz.fazo.user.User;
 
 
 @Entity
@@ -27,5 +25,8 @@ public class Member {
     private String passportNumber;
     private String phoneNumber;
     private int groupNumber;
+
+    @ManyToOne
+    private User user;
 
 }

@@ -15,9 +15,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.cors.CorsConfiguration;
 
-import static uz.fazo.user.Role.ADMIN;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+import static uz.fazo.user.Role.ADMIN;
+import static uz.fazo.user.Role.DISTRICT;
 
 @Configuration
 @EnableWebSecurity
@@ -29,17 +30,10 @@ public class SecurityConfiguration {
             {"/api/auth/**",
                     "v3/api-docs/**",
                     "/api/excel/**",
-                    "/api/images/**"
-                    ,"/api/users/**",
-                    "/api/members/**",
-                    "/api/clients/**",
-                    "/api/events/**",
-                    "/api/problems/**",
-                    "/api/tests/**",
+                    "/api/images/**",
                     "/api-docs/**",
                     "/swagger-ui/**",
                     "/api/user-tests/**",
-                    "/api/home/**",
                     "/uploadFile/**",
                     "/configuration/security",
 
@@ -56,7 +50,7 @@ public class SecurityConfiguration {
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(false);
-        configuration.setMaxAge(3600L); // 1 hour
+        configuration.setMaxAge(3600L);
         http.cors(httpSecurityCorsConfigurer ->
                         httpSecurityCorsConfigurer.configurationSource(request ->
                                 new CorsConfiguration(configuration)
@@ -65,23 +59,24 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
-                                .requestMatchers(GET, "/api/problems/**", "/api/members/**", "/api/materials/**"
-                                        , "/api/events/**", "/api/clients/**", "/api/articles/**", "/api/materials/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/problems/user/**", "/api/statistics/user/**", "/api/members/user/**", "/api/materials/user/**"
+                                        , "/api/events/user/**", "/api/clients/user/**", "/api/articles/user/**", "/api/materials/user/**").hasAnyRole(DISTRICT.name(), ADMIN.name())
+                                .requestMatchers(HttpMethod.GET, "/api/problems/**", "/api/members/**", "/api/materials/**"
+                                        , "/api/events/**", "/api/clients/**", "/api/articles/**", "/api/statistics/**", "/api/materials/**").hasRole(ADMIN.name())
                                 .requestMatchers(HttpMethod.POST,
                                         "/api/problems/**", "/api/members/**", "/api/materials/**"
                                         , "/api/events/**", "/api/clients/**", "/api/articles/**", "/api/materials/**"
-                                ).hasRole(ADMIN.name())
+                                ).hasAnyRole(ADMIN.name(), DISTRICT.name())
                                 .requestMatchers(HttpMethod.PATCH,
-                                        "/api/problems/**", "/api/members/**", "/api/materials/**"
+                                        "/api/problems/**", " /api/statistics/**", "/api/members/**", "/api/materials/**"
                                         , "/api/events/**", "/api/clients/**", "/api/articles/**", "/api/materials/**"
-                                ).hasRole(ADMIN.name())
+                                ).hasAnyRole(ADMIN.name(), DISTRICT.name())
                                 .requestMatchers(HttpMethod.DELETE,
-                                        "/api/problems/**", "/api/members/**", "/api/materials/**"
+                                        "/api/problems/**", " /api/statistics/**", "/api/members/**", "/api/materials/**"
                                         , "/api/events/**", "/api/clients/**", "/api/articles/**", "/api/materials/**"
-                                ).hasRole(ADMIN.name())
+                                ).hasAnyRole(ADMIN.name(), DISTRICT.name())
                                 .requestMatchers(GET, "/api/users/**").hasRole(ADMIN.name())
                                 .anyRequest().authenticated()
-
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)

@@ -24,6 +24,12 @@ public class EventController {
         return ResponseEntity.ok(events);
     }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<EventDto>> getAllEventsByUserId(@PathVariable int id) {
+        List<EventDto> events = eventService.getAllByUserId(id);
+        return ResponseEntity.ok(events);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<EventDto> getEventById(@PathVariable long id) {
         EventDto event = eventService.getById(id);

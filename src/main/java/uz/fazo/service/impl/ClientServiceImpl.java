@@ -30,7 +30,13 @@ public class ClientServiceImpl implements ClientService {
         return clientRepository.findAll().stream()
                 .map(clientMapper::clientToClientDto)
                 .collect(Collectors.toList());
+    }
 
+    @Override
+    public List<ClientDto> getAllByUserId(int id) {
+        return clientRepository.findAllByUserId(id).stream()
+                .map(clientMapper::clientToClientDto)
+                .collect(Collectors.toList());
     }
 
     @Override

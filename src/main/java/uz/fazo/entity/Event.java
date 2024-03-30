@@ -1,10 +1,8 @@
 package uz.fazo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+import uz.fazo.user.User;
 
 @NoArgsConstructor
 @Entity
@@ -22,6 +20,9 @@ public class Event {
     private String comment;
     private String photo;
     private String status;
+
+    @ManyToOne
+    private User user;
 
 }
 

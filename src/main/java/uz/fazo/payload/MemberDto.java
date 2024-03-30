@@ -15,6 +15,7 @@ public class MemberDto {
     private String address;
     private String birthDate;
     private String state;
+    private int userId;
     private String passportSeries;
     private String passportNumber;
     private String phoneNumber;

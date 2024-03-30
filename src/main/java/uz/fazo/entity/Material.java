@@ -1,10 +1,9 @@
 package uz.fazo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.*;
+import uz.fazo.user.User;
 
 import java.time.LocalDateTime;
 
@@ -20,5 +19,7 @@ public class Material {
     private long id;
     private String name;
     private String link;
+    @ManyToOne
+    private User user;
     private LocalDateTime createdAt;
 }

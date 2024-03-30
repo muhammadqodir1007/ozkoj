@@ -24,6 +24,12 @@ public class MaterialController {
         return ResponseEntity.ok(materials);
     }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<MaterialDto>> getAllMaterialsByUserId(@PathVariable int id) {
+        List<MaterialDto> materials = materialService.getAllByUserId(id);
+        return ResponseEntity.ok(materials);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<MaterialDto> getMaterialById(@PathVariable long id) {
         MaterialDto material = materialService.getById(id);

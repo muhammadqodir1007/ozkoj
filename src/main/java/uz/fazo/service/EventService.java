@@ -8,6 +8,9 @@ public interface EventService {
 
     List<EventDto> getAll();
 
+
+    List<EventDto> getAllByUserId(int id);
+
     EventDto getById(long id);
 
     EventDto create(EventDto eventDto);

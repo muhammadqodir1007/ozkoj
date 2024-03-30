@@ -11,4 +11,5 @@ public interface ProblemMapper {
     ProblemDto problemToProblemDto(Problem problem);
 
     Problem problemDtoToProblem(ProblemDto problemDto);
+
 }

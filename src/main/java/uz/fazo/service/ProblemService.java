@@ -9,6 +9,8 @@ public interface ProblemService {
 
     List<ProblemDto> getAll();
 
+    List<ProblemDto> getAllByUserId(int id);
+
     ProblemDto getById(long id);
 
     ProblemDto create(ProblemDto problemDto);

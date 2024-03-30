@@ -36,7 +36,6 @@ public class SecurityApplication {
             if (user.isEmpty()) {
                 User admin = User.builder().role(ADMIN)
                         .username("mainadmin")
-                        .region("main")
                         .password(passwordEncoder.encode("ozkojadmin"))
                         .enabled(true).build();
                 userRepository.save(admin);

@@ -14,8 +14,7 @@ public interface UserMapper {
     @Mappings({
             @Mapping(source = "username", target = "username"),
             @Mapping(source = "id", target = "id"),
-            @Mapping(source = "password", target = "password"),
-            @Mapping(source = "region", target = "region")
+            @Mapping(source = "password", target = "password")
     })
     UserDto userToUserDto(User user);
 
@@ -23,8 +22,7 @@ public interface UserMapper {
     @Mappings({
             @Mapping(source = "username", target = "username"),
             @Mapping(source = "id", target = "id"),
-            @Mapping(source = "password", target = "password"),
-            @Mapping(source = "region", target = "region")
+            @Mapping(source = "password", target = "password")
     })
     User userDtoToUser(UserDto userDto);
 }

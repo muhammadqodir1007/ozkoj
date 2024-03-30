@@ -1,10 +1,8 @@
 package uz.fazo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+import uz.fazo.user.User;
 
 @NoArgsConstructor
 @Entity
@@ -19,6 +17,8 @@ public class Problem {
     private long id;
     private String name;
     private String fileName;
+    @ManyToOne
+    private User user;
 
 
 }

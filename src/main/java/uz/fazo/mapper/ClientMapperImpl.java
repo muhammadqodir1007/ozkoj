@@ -1,18 +1,27 @@
 package uz.fazo.mapper;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import uz.fazo.entity.Client;
 import uz.fazo.payload.ClientDto;
+import uz.fazo.user.User;
+import uz.fazo.user.UserRepository;
 
 @Component
+@AllArgsConstructor
 public class ClientMapperImpl implements ClientMapper {
+
+    UserRepository userRepository;
+
     @Override
     public ClientDto clientToClientDto(Client client) {
         if (client == null) {
             return null;
         }
+
         return ClientDto.builder().id(client.getId())
                 .address(client.getAddress())
+                .userId(client.getUser().getId())
                 .fullName(client.getFullName())
                 .birthDate(client.getBirthDate())
                 .groupNumber(client.getGroupNumber())
@@ -26,10 +35,13 @@ public class ClientMapperImpl implements ClientMapper {
 
     @Override
     public Client clientDtoToClient(ClientDto clientDto) {
+
         if (clientDto == null) {
             return null;
         }
+        User user = userRepository.findById(clientDto.getUserId()).orElseThrow(NullPointerException::new);
         return Client.builder().id(clientDto.getId())
+                .user(user)
                 .address(clientDto.getAddress())
                 .fullName(clientDto.getFullName())
                 .birthDate(clientDto.getBirthDate())
@@ -39,7 +51,6 @@ public class ClientMapperImpl implements ClientMapper {
                 .phoneNumber(clientDto.getPhoneNumber())
                 .passportSeries(clientDto.getPassportSeries())
                 .build();
-
     }
 
 

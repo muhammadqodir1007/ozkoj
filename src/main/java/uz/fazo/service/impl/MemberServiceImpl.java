@@ -29,6 +29,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public List<MemberDto> getAllByUserId(int id) {
+        return memberRepository.findAllByUserId(id).stream().map(memberMapper::memberToMemberDto).collect(Collectors.toList());
+    }
+
+    @Override
     public List<MemberDto> createFromFile(MultipartFile file) throws IOException {
         return excelService.createMembers(file);
     }

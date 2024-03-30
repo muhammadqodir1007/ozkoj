@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface MaterialService {
     List<MaterialDto> getAll();
+    List<MaterialDto> getAllByUserId(int userId);
 
     MaterialDto getById(long id);
 

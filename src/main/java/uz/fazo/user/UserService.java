@@ -24,6 +24,8 @@ public class UserService {
 
     public UserDto create(UserDto userDto) {
         User user = userMapper.userDtoToUser(userDto);
+        user.setRole(Role.DISTRICT);
+        user.setEnabled(true);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         User save = repository.save(user);
         return userMapper.userToUserDto(save);
@@ -32,7 +34,6 @@ public class UserService {
     public void delete(int id) {
         repository.deleteById(id);
     }
-
 
 
 }

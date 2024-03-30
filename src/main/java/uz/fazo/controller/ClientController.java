@@ -30,6 +30,12 @@ public class ClientController {
         return ResponseEntity.ok(clients);
     }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<ClientDto>> getAllClientsByUserId(@PathVariable int id) {
+        List<ClientDto> clients = clientService.getAllByUserId(id);
+        return ResponseEntity.ok(clients);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ClientDto> getClientById(@PathVariable long id) {
         ClientDto client = clientService.getById(id);

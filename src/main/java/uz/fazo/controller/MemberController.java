@@ -30,6 +30,12 @@ public class MemberController {
         return ResponseEntity.ok(members);
     }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<MemberDto>> getAllMembersByUserId(@PathVariable int id) {
+        List<MemberDto> members = memberService.getAllByUserId(id);
+        return ResponseEntity.ok(members);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<MemberDto> getMemberById(@PathVariable long id) {
         MemberDto member = memberService.getById(id);

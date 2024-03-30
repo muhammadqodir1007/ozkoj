@@ -1,11 +1,20 @@
 package uz.fazo.mapper;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import uz.fazo.entity.Event;
 import uz.fazo.payload.EventDto;
+import uz.fazo.user.User;
+import uz.fazo.user.UserRepository;
 
 @Component
+@AllArgsConstructor
 public class EventMapperImpl implements EventMapper {
+
+
+    UserRepository userRepository;
+
+
     @Override
     public EventDto eventToEventDto(Event event) {
         if (event == null) {
@@ -14,13 +23,13 @@ public class EventMapperImpl implements EventMapper {
         return EventDto.builder().id(event.getId())
                 .attendeeCount(event.getAttendeeCount())
                 .photo(event.getPhoto())
+                .userId(event.getUser().getId())
                 .status(event.getStatus())
+                .userId(event.getUser().getId())
                 .name(event.getName())
                 .comment(event.getComment())
                 .type(event.getType())
                 .build();
-
-
     }
 
     @Override
@@ -29,9 +38,12 @@ public class EventMapperImpl implements EventMapper {
         if (eventDto == null) {
             return null;
         }
+        User user = userRepository.findById(eventDto.getUserId()).orElseThrow(NullPointerException::new);
+
         return Event.builder().id(eventDto.getId())
                 .attendeeCount(eventDto.getAttendeeCount())
                 .photo(eventDto.getPhoto())
+                .user(user)
                 .status(eventDto.getStatus())
                 .name(eventDto.getName())
                 .comment(eventDto.getComment())

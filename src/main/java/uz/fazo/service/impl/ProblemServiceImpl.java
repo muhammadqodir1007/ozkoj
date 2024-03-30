@@ -25,12 +25,20 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
+    public List<ProblemDto> getAllByUserId(int id) {
+        return problemRepository.findAllByUserId(id).stream().map(problemMapper::problemToProblemDto).collect(Collectors.toList());
+    }
+
+    @Override
     public ProblemDto getById(long id) {
         return problemMapper.problemToProblemDto(problemRepository.findById(id).orElseThrow(NotFoundException::new));
     }
 
     @Override
     public ProblemDto create(ProblemDto problemDto) {
+        if (problemDto == null) {
+            throw new IllegalArgumentException("ProblemDto cannot be null");
+        }
         Problem problem = problemMapper.problemDtoToProblem(problemDto);
         Problem savedProblem = problemRepository.save(problem);
         return problemMapper.problemToProblemDto(savedProblem);

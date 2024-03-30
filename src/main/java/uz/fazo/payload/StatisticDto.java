@@ -8,16 +8,17 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class ClientDto {
+public class StatisticDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private long id;
-    private String fullName;
-    private String address;
-    private String birthDate;
-    private String state;
-    private String passportSeries;
-    private String passportNumber;
-    private String phoneNumber;
+    private String type;
+    private String year;
+    private String period;
+    private String location;
+    private String KTUT;
+    private String MHOBT;
+    private String XXTUT;
+    private String link;
     private int userId;
-    private int groupNumber;
+
 }

@@ -11,6 +11,8 @@ public interface MemberService {
 
     List<MemberDto> getAll();
 
+    List<MemberDto> getAllByUserId(int id);
+
     List<MemberDto> createFromFile(MultipartFile file) throws IOException;
 
     byte[] exportMembersToExcel() throws IOException;

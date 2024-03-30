@@ -15,6 +15,7 @@ public class MaterialDto {
     private long id;
     private String name;
     private String link;
+    private int userId;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime createdAt;
 

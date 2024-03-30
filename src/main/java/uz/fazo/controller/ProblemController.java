@@ -24,6 +24,12 @@ public class ProblemController {
         return ResponseEntity.ok(problems);
     }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<ProblemDto>> getAllProblemsByUserId(@PathVariable int id) {
+        List<ProblemDto> problems = problemService.getAllByUserId(id);
+        return ResponseEntity.ok(problems);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ProblemDto> getProblemById(@PathVariable long id) {
         ProblemDto problem = problemService.getById(id);

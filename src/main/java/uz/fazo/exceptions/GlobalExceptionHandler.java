@@ -2,6 +2,7 @@ package uz.fazo.exceptions;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
@@ -27,9 +29,17 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<String> handleNoContentException() {
-        return new ResponseEntity<>("Resource ID not found.", HttpStatus.NOT_FOUND);
+    public ResponseEntity<Object> handleNotFoundException(NotFoundException ex) {
+        log.error("Resource not found: ", ex);
+        return new ResponseEntity<>("Resource not found", HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<Object> handleNullPointerException(NullPointerException ex) {
+        log.error("Null pointer exception occurred: ", ex);
+        return new ResponseEntity<>("Null pointer exception occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<Map<String, String>> handleBadCredentialsException(BadCredentialsException ex) {
@@ -37,8 +47,6 @@ public class GlobalExceptionHandler {
         errorResponse.put("message", "Bad credentials: " + ex.getMessage());
         return ResponseEntity.status(401).body(errorResponse);
     }
-
-
 
 
     @ExceptionHandler(RestException.class)
@@ -106,5 +114,6 @@ public class GlobalExceptionHandler {
         ex.printStackTrace(); // Print the stack trace to the logs for debugging
         return new ResponseEntity<>("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 
 }
