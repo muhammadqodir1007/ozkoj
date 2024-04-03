@@ -30,7 +30,7 @@ public class ExcelServiceImpl implements ExcelService {
     private final MemberMapper memberMapper;
 
     @Override
-    public List<ClientDto> createClients(MultipartFile file) throws IOException {
+    public List<ClientDto> createClients(MultipartFile file, int id) throws IOException {
         List<ClientDto> clients = new ArrayList<>();
         try (Workbook workbook = WorkbookFactory.create(file.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0);
@@ -46,6 +46,7 @@ public class ExcelServiceImpl implements ExcelService {
                 if (isEmptyRow(row)) {
                     ClientDto clientDto = mapRowToClientDto(row);
                     if (clientDto != null) {
+                        clientDto.setUserId(id);
                         Client save = clientRepository.save(clientMapper.clientDtoToClient(clientDto));
                         clients.add(clientMapper.clientToClientDto(save));
                     }
@@ -56,7 +57,7 @@ public class ExcelServiceImpl implements ExcelService {
     }
 
     @Override
-    public List<MemberDto> createMembers(MultipartFile file) throws IOException {
+    public List<MemberDto> createMembers(MultipartFile file, int id) throws IOException {
         List<MemberDto> members = new ArrayList<>();
         try (Workbook workbook = WorkbookFactory.create(file.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0);
@@ -71,6 +72,7 @@ public class ExcelServiceImpl implements ExcelService {
                 if (isEmptyRow(row)) {
                     MemberDto memberDto = mapRowToMemberDto(row);
                     if (memberDto != null) {
+                        memberDto.setUserId(id);
                         Member save = memberRepository.save(memberMapper.memberDtoToMember(memberDto));
                         members.add(memberMapper.memberToMemberDto(save));
                     }

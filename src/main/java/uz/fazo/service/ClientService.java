@@ -14,7 +14,7 @@ public interface ClientService {
 
     List<ClientDto> getAllByUserId(int id);
 
-    List<ClientDto> createFromFile(MultipartFile file) throws IOException;
+    List<ClientDto> createFromFile(MultipartFile file, int id) throws IOException;
 
 
     byte[] exportMembersToExcel() throws IOException;

@@ -34,8 +34,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<MemberDto> createFromFile(MultipartFile file) throws IOException {
-        return excelService.createMembers(file);
+    public List<MemberDto> createFromFile(MultipartFile file,int id) throws IOException {
+        return excelService.createMembers(file,id);
     }
 
     @Override

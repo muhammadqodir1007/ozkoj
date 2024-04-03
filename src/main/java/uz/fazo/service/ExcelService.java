@@ -10,11 +10,9 @@ import java.util.List;
 public interface ExcelService {
 
 
+    List<ClientDto> createClients(MultipartFile file, int id) throws IOException;
 
-
-    List<ClientDto> createClients(MultipartFile file) throws IOException;
-
-    List<MemberDto> createMembers(MultipartFile file) throws IOException;
+    List<MemberDto> createMembers(MultipartFile file, int id) throws IOException;
 
     byte[] exportMembersToExcel(List<MemberDto> members) throws IOException;
 

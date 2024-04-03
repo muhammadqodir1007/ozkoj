@@ -40,8 +40,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<ClientDto> createFromFile(MultipartFile file) throws IOException {
-        return excelService.createClients(file);
+    public List<ClientDto> createFromFile(MultipartFile file, int id) throws IOException {
+        return excelService.createClients(file, id);
     }
 
     @Override

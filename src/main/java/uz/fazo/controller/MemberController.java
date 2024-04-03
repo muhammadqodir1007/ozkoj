@@ -58,10 +58,10 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/upload")
-    public ResponseEntity<List<MemberDto>> uploadClientsFromFile(@RequestParam("file") MultipartFile file) {
+    @PostMapping("/upload/{id}")
+    public ResponseEntity<List<MemberDto>> uploadClientsFromFile(@RequestParam("file") MultipartFile file, @PathVariable int id) {
         try {
-            List<MemberDto> clients = memberService.createFromFile(file);
+            List<MemberDto> clients = memberService.createFromFile(file, id);
             return ResponseEntity.ok(clients);
         } catch (IOException e) {
             e.printStackTrace();

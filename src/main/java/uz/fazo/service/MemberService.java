@@ -13,7 +13,7 @@ public interface MemberService {
 
     List<MemberDto> getAllByUserId(int id);
 
-    List<MemberDto> createFromFile(MultipartFile file) throws IOException;
+    List<MemberDto> createFromFile(MultipartFile file,int id) throws IOException;
 
     byte[] exportMembersToExcel() throws IOException;
 

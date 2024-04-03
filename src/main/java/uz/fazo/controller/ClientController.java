@@ -59,10 +59,10 @@ public class ClientController {
     }
 
 
-    @PostMapping("/upload")
-    public ResponseEntity<List<ClientDto>> uploadClientsFromFile(@RequestParam("file") MultipartFile file) {
+    @PostMapping("/upload/{id}")
+    public ResponseEntity<List<ClientDto>> uploadClientsFromFile(@RequestParam("file") MultipartFile file, @PathVariable int id) {
         try {
-            List<ClientDto> clients = clientService.createFromFile(file);
+            List<ClientDto> clients = clientService.createFromFile(file,id);
             return ResponseEntity.ok(clients);
         } catch (IOException e) {
             e.printStackTrace();
