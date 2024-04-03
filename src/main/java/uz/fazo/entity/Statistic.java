@@ -23,6 +23,7 @@ public class Statistic {
     private String KTUT;
     private String MHOBT;
     private String XXTUT;
+    private String state;
     private String link;
     @ManyToOne
     private User user;

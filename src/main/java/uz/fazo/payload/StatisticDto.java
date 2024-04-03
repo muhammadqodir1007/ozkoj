@@ -14,6 +14,7 @@ public class StatisticDto {
     private String type;
     private String year;
     private String period;
+    private String state;
     private String location;
     private String KTUT;
     private String MHOBT;

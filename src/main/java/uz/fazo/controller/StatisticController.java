@@ -42,7 +42,7 @@ public class StatisticController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdStatistic);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<StatisticDto> updateStatistic(@PathVariable long id, @RequestBody StatisticDto statisticDto) {
         StatisticDto updatedStatistic = statisticService.update(id, statisticDto);
         return ResponseEntity.ok(updatedStatistic);

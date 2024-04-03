@@ -24,6 +24,7 @@ public class StatisticMapperImpl implements StatisticMapper {
                 .link(statisticDto.getLink())
                 .MHOBT(statisticDto.getMHOBT())
                 .type(statisticDto.getType())
+                .state(statisticDto.getState())
                 .XXTUT(statisticDto.getXXTUT())
                 .KTUT(statisticDto.getKTUT())
                 .year(statisticDto.getYear())
@@ -44,6 +45,7 @@ public class StatisticMapperImpl implements StatisticMapper {
                 .MHOBT(statistic.getMHOBT())
                 .period(statistic.getPeriod())
                 .KTUT(statistic.getKTUT())
+                .state(statistic.getState())
                 .XXTUT(statistic.getXXTUT())
                 .year(statistic.getYear())
                 .location(statistic.getLocation())
@@ -62,6 +64,9 @@ public class StatisticMapperImpl implements StatisticMapper {
         }
         if (statisticDto.getKTUT() != null) {
             statistic.setKTUT(statisticDto.getKTUT());
+        }
+        if (statisticDto.getState() != null) {
+            statistic.setState(statisticDto.getState());
         }
         if (statisticDto.getPeriod() != null) {
             statistic.setPeriod(statistic.getPeriod());
