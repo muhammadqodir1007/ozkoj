@@ -26,6 +26,7 @@ public class UserService {
         User user = userMapper.userDtoToUser(userDto);
         user.setRole(Role.DISTRICT);
         user.setEnabled(true);
+        user.setRegion(userDto.getRegion());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         User save = repository.save(user);
         return userMapper.userToUserDto(save);

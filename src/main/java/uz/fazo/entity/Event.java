@@ -19,6 +19,7 @@ public class Event {
     private int attendeeCount;
     private String comment;
     private String photo;
+    private String file;
     private String status;
 
     @ManyToOne

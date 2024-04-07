@@ -15,6 +15,7 @@ public class UserMapperImpl implements UserMapper {
         UserDto userDto = new UserDto();
         userDto.setUsername(user.getUsername());
         userDto.setId(user.getId());
+        userDto.setRegion(user.getRegion());
         userDto.setPassword(user.getPassword());
         return userDto;
     }
@@ -28,6 +29,7 @@ public class UserMapperImpl implements UserMapper {
         user.setUsername(userDto.getUsername());
         user.setId(userDto.getId());
         user.setRole(Role.DISTRICT);
+        user.setRegion(userDto.getRegion());
         user.setPassword(userDto.getPassword());
         return user;
     }

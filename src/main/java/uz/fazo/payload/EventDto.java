@@ -16,6 +16,7 @@ public class EventDto {
     private int attendeeCount;
     private String comment;
     private String photo;
+    private String file;
     private int userId;
     private String status;
 }

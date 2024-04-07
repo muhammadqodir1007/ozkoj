@@ -30,6 +30,7 @@ public class User implements UserDetails {
     private String password;
 
     private boolean enabled;
+    private String region;
 
     @Enumerated(EnumType.STRING)
     private Role role;

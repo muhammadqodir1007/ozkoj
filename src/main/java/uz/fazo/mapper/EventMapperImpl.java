@@ -23,6 +23,7 @@ public class EventMapperImpl implements EventMapper {
         return EventDto.builder().id(event.getId())
                 .attendeeCount(event.getAttendeeCount())
                 .photo(event.getPhoto())
+                .file(event.getFile())
                 .userId(event.getUser().getId())
                 .status(event.getStatus())
                 .userId(event.getUser().getId())
@@ -44,6 +45,7 @@ public class EventMapperImpl implements EventMapper {
                 .attendeeCount(eventDto.getAttendeeCount())
                 .photo(eventDto.getPhoto())
                 .user(user)
+                .file(eventDto.getFile())
                 .status(eventDto.getStatus())
                 .name(eventDto.getName())
                 .comment(eventDto.getComment())
@@ -64,6 +66,9 @@ public class EventMapperImpl implements EventMapper {
         }
         if (eventDto.getStatus() != null) {
             event.setStatus(eventDto.getStatus());
+        }
+        if (eventDto.getFile() != null) {
+            event.setFile(eventDto.getFile());
         }
         if (eventDto.getName() != null) {
             event.setName(eventDto.getName());
