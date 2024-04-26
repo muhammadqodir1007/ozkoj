@@ -15,8 +15,7 @@ import uz.fazo.repository.ClientRepository;
 import uz.fazo.repository.MemberRepository;
 import uz.fazo.service.ExcelService;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -205,6 +204,7 @@ public class ExcelServiceImpl implements ExcelService {
         return excelBytes;
     }
 
+
     @Override
     public byte[] exportClientsToExcel(List<ClientDto> members) throws IOException {
         // Create a new workbook
@@ -248,6 +248,60 @@ public class ExcelServiceImpl implements ExcelService {
         workbook.close();
 
         return excelBytes;
+    }
+
+    public void mergeExcelFiles(List<String> filepaths, String targetFilePath) throws IOException {
+        Workbook targetWorkbook = new XSSFWorkbook(); // Create a new Excel workbook
+        for (int i = 0; i < filepaths.size(); i++) {
+
+            String filepath = "src/main/resources/static/images/" + filepaths.get(i);
+            FileInputStream inputStream = new FileInputStream(new File(filepath));
+            Workbook sourceWorkbook = new XSSFWorkbook(inputStream);
+
+            // Iterate through each sheet in the source workbook
+            for (int j = 0; j < sourceWorkbook.getNumberOfSheets(); j++) {
+                Sheet sourceSheet = sourceWorkbook.getSheetAt(j);
+                Sheet targetSheet = targetWorkbook.createSheet("Sheet " + (i + 1) + "-" + (j + 1)); // Create a new sheet in the target workbook
+
+                // Iterate through each row in the source sheet and copy to the target sheet
+                for (int k = 0; k <= sourceSheet.getLastRowNum(); k++) {
+                    Row sourceRow = sourceSheet.getRow(k);
+                    Row targetRow = targetSheet.createRow(k);
+                    if (sourceRow != null) {
+                        // Iterate through each cell in the source row and copy to the target row
+                        for (int l = 0; l < sourceRow.getLastCellNum(); l++) {
+                            Cell sourceCell = sourceRow.getCell(l);
+                            Cell targetCell = targetRow.createCell(l);
+                            if (sourceCell != null) {
+                                switch (sourceCell.getCellType()) {
+                                    case STRING:
+                                        targetCell.setCellValue(sourceCell.getStringCellValue());
+                                        break;
+                                    case NUMERIC:
+                                        targetCell.setCellValue(sourceCell.getNumericCellValue());
+                                        break;
+                                    case BOOLEAN:
+                                        targetCell.setCellValue(sourceCell.getBooleanCellValue());
+                                        break;
+                                    case FORMULA:
+                                        targetCell.setCellFormula(sourceCell.getCellFormula());
+                                        break;
+                                    default:
+                                        targetCell.setCellValue(sourceCell.toString());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            inputStream.close();
+        }
+
+        // Write the target workbook to a file
+        FileOutputStream outputStream = new FileOutputStream(targetFilePath);
+        targetWorkbook.write(outputStream);
+        targetWorkbook.close();
+        outputStream.close();
     }
 
 

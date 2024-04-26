@@ -31,7 +31,9 @@ public class SecurityConfiguration {
                     "v3/api-docs/**",
                     "/api/excel/**",
                     "/api/images/**",
+
                     "/api-docs/**",
+
                     "/swagger-ui/**",
                     "/api/user-tests/**",
                     "/uploadFile/**",
@@ -62,7 +64,7 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.GET, "/api/problems/user/**", "/api/accounting/user/**", "/api/statistics/user/**", "/api/members/user/**", "/api/materials/user/**"
                                         , "/api/events/user/**", "/api/clients/user/**", "/api/articles/user/**", "/api/materials/user/**").hasAnyRole(DISTRICT.name(), ADMIN.name())
                                 .requestMatchers(HttpMethod.GET, "/api/problems/**", "/api/members/**", "/api/materials/**"
-                                        , "/api/events/**", "/api/clients/**", "/api/articles/**", "/api/statistics/**", "/api/materials/**").hasRole(ADMIN.name())
+                                        , "/api/events/**", "/api/clients/**", "/api/articles/**", "/api/statistics/**", "/api/statistics/**", "/api/materials/**").hasRole(ADMIN.name())
                                 .requestMatchers(HttpMethod.POST,
                                         "/api/problems/**", "/api/members/**", "/api/materials/**", "/api/accounting/**"
                                         , "/api/events/**", "/api/clients/**", "/api/articles/**", "/api/materials/**"
